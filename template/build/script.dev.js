@@ -1,3 +1,4 @@
+process.env.BABEL_ENV = 'development'
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
@@ -7,6 +8,7 @@ var
   express = require('express'),
   webpack = require('webpack'),
   platform = require('./platform'),
+  config = require('../config'),
   opn = require('opn'),
   proxyMiddleware = require('http-proxy-middleware'),
   webpackConfig = process.env.NODE_ENV === 'testing'
@@ -61,7 +63,7 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-var staticsPath = path.posix.join(config.dev.publicPath, 'statics/')
+var staticsPath = path.posix.join(webpackConfig.output.publicPath, 'statics/')
 app.use(staticsPath, express.static('./src/statics'))
 
 // try to serve Cordova statics for Play App
