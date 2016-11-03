@@ -1,9 +1,13 @@
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development'
+}
+
 var
   path = require('path'),
   express = require('express'),
   webpack = require('webpack'),
-  config = require('../config'),
   platform = require('./platform'),
+  opn = require('opn'),
   proxyMiddleware = require('http-proxy-middleware'),
   webpackConfig = process.env.NODE_ENV === 'testing'
     ? require('./webpack.prod.conf')
@@ -36,7 +40,8 @@ compiler.plugin('compilation', function (compilation) {
   })
 })
 
-// proxy api requests
+// proxy requests like API. See /config/index.js -> dev.proxyTable
+// https://github.com/chimurai/http-proxy-middleware
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
   if (typeof options === 'string') {
@@ -56,7 +61,8 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-app.use('/statics', express.static('./src/statics'))
+var staticsPath = path.posix.join(config.dev.publicPath, 'statics/')
+app.use(staticsPath, express.static('./src/statics'))
 
 // try to serve Cordova statics for Play App
 app.use(express.static(platform.cordovaAssets))
@@ -66,7 +72,13 @@ module.exports = app.listen(port, function (err) {
     console.log(err)
     return
   }
+  var uri = 'http://localhost:' + port
   console.log('Running with "' + (process.argv[2] || 'mat') + '" theme')
-  console.log('Listening at http://localhost:' + port + '\n')
+  console.log('Listening at ' + uri + '\n')
   console.log('Building. Please wait...')
+
+  // open browser if set so in /config/index.js and not on unit/e2e testing
+  if (config.dev.openBrowser && process.env.NODE_ENV !== 'testing') {
+    opn(uri)
+  }
 })

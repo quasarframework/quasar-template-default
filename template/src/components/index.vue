@@ -2,7 +2,7 @@
   <quasar-layout>
     <div slot="header" class="toolbar">
       <quasar-toolbar-title :padding="1">
-        Quasar Framework
+        Quasar Framework v{{quasarVersion}}
       </quasar-toolbar-title>
     </div>
 
@@ -14,7 +14,7 @@
     <div class="layout-view">
       <div class="logo-container non-selectable no-pointer-events">
         <div class="logo" :style="position">
-          <img :src="'statics/quasar-logo.png'">
+          <img src="~assets/quasar-logo.png">
           <p class="caption text-center">
             <span class="desktop-only">Move your mouse.</span>
             <span class="touch-only">Touch screen and move.</span>
@@ -29,11 +29,12 @@
 var moveForce = 30
 var rotateForce = 40
 
-import { Utils } from 'quasar'
+import Quasar, { Utils } from 'quasar'
 
 export default {
   data () {
     return {
+      quasarVersion: Quasar.version,
       moveX: 0,
       moveY: 0,
       rotateY: 0,
