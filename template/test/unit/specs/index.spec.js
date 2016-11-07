@@ -7,6 +7,6 @@ describe('index.vue', () => {
       template: '<div><index></index></div>',
       components: { Index }
     }).$mount()
-    expect(vm.$el.innerHTML).to.contain('Quasar App')
+    expect(vm.$el.innerHTML).to.contain('Quasar Framework')
   })
 })
