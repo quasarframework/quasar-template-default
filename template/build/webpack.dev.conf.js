@@ -3,7 +3,6 @@ var
   webpack = require('webpack'),
   merge = require('webpack-merge'),
   utils = require('./utils'),
-  platform = require('./platform'),
   baseWebpackConfig = require('./webpack.base.conf'),
   HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -13,16 +12,16 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 })
 
 module.exports = merge(baseWebpackConfig, {
-  module: {
-    loaders: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, postcss: true })
-  },
   // eval-source-map is faster for development
   devtool: '#eval-source-map',
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true
+  },
+  module: {
+    rules: utils.styleRules({ sourceMap: config.dev.cssSourceMap, postcss: true })
+  },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': config.dev.env,
-      '__THEME': '"' + platform.theme + '"'
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({

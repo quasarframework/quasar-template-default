@@ -11,11 +11,11 @@
  */
 
 // === DEFAULT / CUSTOM STYLE ===
-// WARNING! always comment out ONE of the two require() calls below.
+// WARNING! always comment out ONE of the two System.import() calls below.
 // 1. use next line to activate CUSTOM STYLE (./src/themes)
-// require('./themes/app.' + __THEME + '.styl')
+// System.import('./themes/app.' + __THEME + '.styl')
 // 2. or, use next line to activate DEFAULT QUASAR STYLE
-require('quasar/dist/quasar.' + __THEME + '.css')
+System.import('quasar/dist/quasar.' + __THEME + '.css')
 // ==============================
 
 export default {}

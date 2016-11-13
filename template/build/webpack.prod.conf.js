@@ -11,34 +11,27 @@ var
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
-    loaders: utils.styleLoaders({ sourceMap: config.build.productionSourceMap, extract: true, postcss: true })
-  },
-  devtool: config.build.productionSourceMap ? '#source-map' : false,
-  vue: {
-    loaders: utils.cssLoaders({
+    rules: utils.styleRules({
       sourceMap: config.build.productionSourceMap,
-      extract: true
+      extract: true,
+      postcss: true
     })
   },
+  devtool: config.build.productionSourceMap ? '#source-map' : false,
   plugins: [
-    // http://vuejs.github.io/vue-loader/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': process.env.NODE_ENV === 'testing'
-        ? require('../config/test.env')
-        : config.build.env,
-      '__THEME': '"' + platform.theme + '"'
-    }),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: config.build.productionSourceMap,
+      minimize: true,
       compress: {
         warnings: false
       }
     }),
     // extract css into its own file
-    new ExtractTextPlugin('[name].[contenthash].css'),
+    new ExtractTextPlugin({
+      filename: '[name].[contenthash].css'
+    }),
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
+      filename: config.build.index,
       template: 'src/index.html',
       inject: true,
       minify: {

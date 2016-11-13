@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Quasar from 'quasar'
-import router from './router'
 import App from './App'
+import router from './router'
 
 Quasar.theme.set(__THEME)
 Vue.use(Quasar) // Install Quasar Framework

@@ -28,7 +28,8 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
   stats: {
     colors: true,
-    chunks: false
+    chunks: false,
+    modules: false
   }
 })
 

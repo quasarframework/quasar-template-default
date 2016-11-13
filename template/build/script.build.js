@@ -15,7 +15,7 @@ console.log(' Opening index.html over file:// won\'t work.\n')
 
 console.log(' WARNING!')
 console.log(' Do NOT use VueRouter\'s "history" mode if')
-console.log(' building for Cordova.\n')
+console.log(' building for Cordova or Electron.\n')
 
 require('./script.clean.js')
 console.log(' Building Quasar App with "' + platform.theme + '" theme...')
