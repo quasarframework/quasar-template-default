@@ -5,6 +5,7 @@ var
   config = require('../config'),
   utils = require('./utils'),
   platform = require('./platform'),
+  merge = require('webpack-merge'),
   projectRoot = path.resolve(__dirname, '../')
 
 // check env & config/index.js to decide weither to enable CSS Sourcemaps for the
@@ -12,14 +13,7 @@ var
 var
   cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap),
   cssSourceMapProd = (env === 'production' && config.build.productionSourceMap),
-  useCssSourceMap = cssSourceMapDev || cssSourceMapProd,
-  vueLoaders
-
-vueLoaders = utils.styleLoaders({
-  sourceMap: useCssSourceMap,
-  extract: env === 'production'
-})
-vueLoaders.js = 'babel-loader'
+  useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
@@ -64,7 +58,10 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           postcss: utils.postcss,
-          loaders: vueLoaders
+          loaders: merge({js: 'babel-loader'}, utils.styleLoaders({
+            sourceMap: useCssSourceMap,
+            extract: env === 'production'
+          }))
         }
       },
       {
@@ -90,6 +87,9 @@ module.exports = {
     ]
   },
   plugins: [
+    // Uncomment if you wish to load only one Moment locale
+    //new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-us/),
+
     new webpack.DefinePlugin({
       'process.env': config[env === 'development' ? 'dev' : 'build'].env,
       'DEV': env === 'development',
