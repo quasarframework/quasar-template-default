@@ -10,9 +10,6 @@ var
     (env.dev && config.dev.cssSourceMap) ||
     (env.prod && config.build.productionSourceMap)
 
-console.log('env', env)
-console.log('env.prod', env.prod)
-console.log('publicPath', config[env.prod ? 'build' : 'dev'].publicPath)
 module.exports = {
   entry: {
     app: './src/main.js'
