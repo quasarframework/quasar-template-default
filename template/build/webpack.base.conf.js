@@ -24,7 +24,7 @@ module.exports = {
     extensions: ['.js', '.vue'],
     modules: [
       path.join(__dirname, '../src'),
-      "node_modules"
+      'node_modules'
     ],
     alias: {
       quasar: path.resolve(__dirname, '../node_modules/quasar-framework/'),
