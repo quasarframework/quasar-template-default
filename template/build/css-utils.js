@@ -2,9 +2,9 @@ var
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   autoprefixer = require('autoprefixer')
 
-exports.postcss = [autoprefixer()]
+module.exports.postcss = [autoprefixer()]
 
-exports.styleLoaders = function (options) {
+module.exports.styleLoaders = function (options) {
   options = options || {}
 
   function generateLoaders (loaders) {
@@ -46,7 +46,7 @@ exports.styleLoaders = function (options) {
   }
 }
 
-exports.styleRules = function (options) {
+module.exports.styleRules = function (options) {
   var output = []
   var loaders = exports.styleLoaders(options)
   for (var extension in loaders) {
