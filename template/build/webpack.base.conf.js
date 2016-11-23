@@ -5,14 +5,10 @@ var
   cssUtils = require('./css-utils'),
   env = require('./env-utils'),
   merge = require('webpack-merge'),
-  projectRoot = path.resolve(__dirname, '../')
-
-// check env & config/index.js to decide weither to enable CSS Sourcemaps for the
-// various preprocessor loaders added to vue at the end of this file
-var
-  cssSourceMapDev = (env.dev && config.dev.cssSourceMap),
-  cssSourceMapProd = (env.prod && config.build.productionSourceMap),
-  useCssSourceMap = cssSourceMapDev || cssSourceMapProd
+  projectRoot = path.resolve(__dirname, '../'),
+  useCssSourceMap =
+    (env.dev && config.dev.cssSourceMap) ||
+    (env.prod && config.build.productionSourceMap)
 
 module.exports = {
   entry: {
@@ -86,8 +82,8 @@ module.exports = {
     ]
   },
   plugins: [
-    // Uncomment if you wish to load only one Moment locale
-    //new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-us/),
+    /* Uncomment if you wish to load only one Moment locale: */
+    // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
 
     new webpack.DefinePlugin({
       'process.env': config[env.prod ? 'build' : 'dev'].env,

@@ -2,6 +2,8 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
 
+require('colors')
+
 var
   path = require('path'),
   express = require('express'),
@@ -10,26 +12,23 @@ var
   config = require('../config'),
   opn = require('opn'),
   proxyMiddleware = require('http-proxy-middleware'),
-  webpackConfig = env.test
-    ? require('./webpack.prod.conf')
-    : require('./webpack.dev.conf')
+  webpackConfig = require('./webpack.dev.conf'),
+  app = express(),
+  compiler = webpack(webpackConfig)
 
-// default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var
+  port = process.env.PORT || config.dev.port,
+  uri = 'http://localhost:' + port
 
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
 
-var app = express()
-var compiler = webpack(webpackConfig)
-
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
   stats: {
     colors: true,
-    chunks: false,
-    modules: false
+    chunks: false
   }
 })
 
@@ -74,13 +73,17 @@ module.exports = app.listen(port, function (err) {
     console.log(err)
     return
   }
-  var uri = 'http://localhost:' + port
-  console.log('Running with "' + (process.argv[2] || 'mat') + '" theme')
-  console.log('Listening at ' + uri + '\n')
-  console.log('Building. Please wait...')
 
-  // open browser if set so in /config/index.js and not on unit/e2e testing
-  if (config.dev.openBrowser && !env.test) {
-    opn(uri)
+  console.log(('\n Running with "' + (process.argv[2] || 'mat') + '" theme').bold)
+  console.log((' Listening at ' + uri).bold)
+
+  // open browser if set so in /config/index.js
+  if (config.dev.openBrowser) {
+    console.log(' Browser will open when build is ready.\n')
+    devMiddleware.waitUntilValid(function () {
+      opn(uri)
+    })
   }
+
+  console.log('\n Building Quasar App. Please wait...\n'.bold)
 })
