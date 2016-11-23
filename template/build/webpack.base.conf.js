@@ -1,18 +1,17 @@
 var
-  env = process.env.NODE_ENV
   path = require('path'),
   webpack = require('webpack'),
   config = require('../config'),
-  utils = require('./utils'),
-  platform = require('./platform'),
+  cssUtils = require('./css-utils'),
+  env = require('./env-utils'),
   merge = require('webpack-merge'),
   projectRoot = path.resolve(__dirname, '../')
 
 // check env & config/index.js to decide weither to enable CSS Sourcemaps for the
 // various preprocessor loaders added to vue at the end of this file
 var
-  cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap),
-  cssSourceMapProd = (env === 'production' && config.build.productionSourceMap),
+  cssSourceMapDev = (env.dev && config.dev.cssSourceMap),
+  cssSourceMapProd = (env.prod && config.build.productionSourceMap),
   useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
@@ -21,7 +20,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: config[env === 'production' ? 'build' : 'dev'].publicPath,
+    publicPath: config[env.prod ? 'build' : 'dev'].publicPath,
     filename: 'js/[name].js',
     chunkFilename: 'js/[id].[chunkhash].js'
   },
@@ -57,10 +56,10 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          postcss: utils.postcss,
-          loaders: merge({js: 'babel-loader'}, utils.styleLoaders({
+          postcss: cssUtils.postcss,
+          loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
             sourceMap: useCssSourceMap,
-            extract: env === 'production'
+            extract: env.prod
           }))
         }
       },
@@ -91,19 +90,19 @@ module.exports = {
     //new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-us/),
 
     new webpack.DefinePlugin({
-      'process.env': config[env === 'development' ? 'dev' : 'build'].env,
-      'DEV': env === 'development',
-      'PROD': env === 'production',
-      '__THEME': '"' + platform.theme + '"'
+      'process.env': config[env.prod ? 'build' : 'dev'].env,
+      'DEV': env.dev,
+      'PROD': env.prod,
+      '__THEME': '"' + env.platform.theme + '"'
     }),
     new webpack.LoaderOptionsPlugin({
-      minimize: env === 'production',
+      minimize: env.prod,
       options: {
         context: path.resolve(__dirname, '../src'),
         eslint: {
           formatter: require('eslint-friendly-formatter')
         },
-        postcss: utils.postcss
+        postcss: cssUtils.postcss
       }
     })
   ]

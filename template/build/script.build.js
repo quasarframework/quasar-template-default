@@ -5,7 +5,7 @@ if (!process.env.NODE_ENV) {
 var
   shell = require('shelljs'),
   path = require('path'),
-  platform = require('./platform'),
+  env = require('./env-utils'),
   webpack = require('webpack'),
   webpackConfig = require('./webpack.prod.conf'),
   targetPath = path.join(__dirname, '../dist')
@@ -18,7 +18,7 @@ console.log(' Do NOT use VueRouter\'s "history" mode if')
 console.log(' building for Cordova or Electron.\n')
 
 require('./script.clean.js')
-console.log(' Building Quasar App with "' + platform.theme + '" theme...')
+console.log(' Building Quasar App with "' + env.platform.theme + '" theme...')
 
 shell.mkdir('-p', targetPath)
 shell.cp('-R', 'src/statics', targetPath)

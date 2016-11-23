@@ -12,7 +12,5 @@
 export default {}
 </script>
 
-<style lang="styl">
-.toolbar-title
-  font-size .7rem
+<style>
 </style>

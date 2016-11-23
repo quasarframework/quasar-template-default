@@ -6,11 +6,11 @@ var
   path = require('path'),
   express = require('express'),
   webpack = require('webpack'),
-  platform = require('./platform'),
+  env = require('./env-utils'),
   config = require('../config'),
   opn = require('opn'),
   proxyMiddleware = require('http-proxy-middleware'),
-  webpackConfig = process.env.NODE_ENV === 'testing'
+  webpackConfig = env.test
     ? require('./webpack.prod.conf')
     : require('./webpack.dev.conf')
 
@@ -67,7 +67,7 @@ var staticsPath = path.posix.join(webpackConfig.output.publicPath, 'statics/')
 app.use(staticsPath, express.static('./src/statics'))
 
 // try to serve Cordova statics for Play App
-app.use(express.static(platform.cordovaAssets))
+app.use(express.static(env.platform.cordovaAssets))
 
 module.exports = app.listen(port, function (err) {
   if (err) {
@@ -80,7 +80,7 @@ module.exports = app.listen(port, function (err) {
   console.log('Building. Please wait...')
 
   // open browser if set so in /config/index.js and not on unit/e2e testing
-  if (config.dev.openBrowser && process.env.NODE_ENV !== 'testing') {
+  if (config.dev.openBrowser && !env.test) {
     opn(uri)
   }
 })

@@ -2,7 +2,7 @@ var
   config = require('../config'),
   webpack = require('webpack'),
   merge = require('webpack-merge'),
-  utils = require('./utils'),
+  cssUtils = require('./css-utils'),
   baseWebpackConfig = require('./webpack.base.conf'),
   HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -19,7 +19,10 @@ module.exports = merge(baseWebpackConfig, {
     noInfo: true
   },
   module: {
-    rules: utils.styleRules({ sourceMap: config.dev.cssSourceMap, postcss: true })
+    rules: cssUtils.styleRules({
+      sourceMap: config.dev.cssSourceMap,
+      postcss: true
+    })
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

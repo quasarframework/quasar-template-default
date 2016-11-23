@@ -1,8 +1,7 @@
 var
   path = require('path'),
   config = require('../config'),
-  utils = require('./utils'),
-  platform = require('./platform'),
+  cssUtils = require('./css-utils'),
   webpack = require('webpack'),
   merge = require('webpack-merge'),
   baseWebpackConfig = require('./webpack.base.conf'),
@@ -11,7 +10,7 @@ var
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleRules({
+    rules: cssUtils.styleRules({
       sourceMap: config.build.productionSourceMap,
       extract: true,
       postcss: true
