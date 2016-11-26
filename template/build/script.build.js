@@ -2,10 +2,12 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'production'
 }
 
+require('colors')
+
 var
   shell = require('shelljs'),
   path = require('path'),
-  platform = require('./platform'),
+  env = require('./env-utils'),
   webpack = require('webpack'),
   webpackConfig = require('./webpack.prod.conf'),
   targetPath = path.join(__dirname, '../dist')
@@ -13,12 +15,12 @@ var
 console.log(' Built files are meant to be served over an HTTP server.')
 console.log(' Opening index.html over file:// won\'t work.\n')
 
-console.log(' WARNING!')
+console.log(' WARNING!'.bold)
 console.log(' Do NOT use VueRouter\'s "history" mode if')
-console.log(' building for Cordova.\n')
+console.log(' building for Cordova or Electron.\n')
 
 require('./script.clean.js')
-console.log(' Building Quasar App with "' + platform.theme + '" theme...')
+console.log((' Building Quasar App with "' + env.platform.theme + '" theme...\n').bold)
 
 shell.mkdir('-p', targetPath)
 shell.cp('-R', 'src/statics', targetPath)

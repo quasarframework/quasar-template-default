@@ -1,6 +1,14 @@
 var path = require('path')
 
 module.exports = {
+  // Webpack aliases
+  aliases: {
+    quasar: path.resolve(__dirname, '../node_modules/quasar-framework/'),
+    src: path.resolve(__dirname, '../src'),
+    assets: path.resolve(__dirname, '../src/assets'),
+    components: path.resolve(__dirname, '../src/components')
+  },
+
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -26,3 +34,18 @@ module.exports = {
     proxyTable: {}
   }
 }
+
+/*
+ * proxyTable example:
+ *
+   proxyTable: {
+      // proxy all requests starting with /api
+      '/api': {
+        target: 'https://some.address.com/api',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+ */

@@ -1,9 +1,9 @@
 <template>
-  <quasar-layout>
+  <q-layout>
     <div slot="header" class="toolbar">
-      <quasar-toolbar-title :padding="1">
+      <q-toolbar-title :padding="1">
         Quasar Framework v{{quasarVersion}}
-      </quasar-toolbar-title>
+      </q-toolbar-title>
     </div>
 
     <!--
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-  </quasar-layout>
+  </q-layout>
 </template>
 
 <script>
