@@ -7,11 +7,9 @@ module.exports = {
     browser: true
   },
   globals: {
+    '__THEME': true,
     'cordova': true,
-    'Velocity': true,
-    'DEV': true,
-    'PROD': true,
-    '__THEME': true
+    'Velocity': true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',
@@ -23,7 +21,6 @@ module.exports = {
   'rules': {
     // allow paren-less arrow functions
     'arrow-parens': 0,
-    'one-var': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }]

@@ -1,38 +1,38 @@
 <template>
-  <q-layout>
+  <quasar-layout>
     <div slot="header" class="toolbar">
       <!-- opens drawer below
-      <button class="hide-on-drawer-visible" @click="$refs.drawer.open()">
+      <button class="left-drawer-opener">
         <i>menu</i>
       </button>
       -->
-      <q-toolbar-title :padding="1">
+      <quasar-toolbar-title :padding="1">
         Title
-      </q-toolbar-title>
+      </quasar-toolbar-title>
     </div>
 
     <!-- Navigation Tabs
-    <q-tabs slot="navigation">
-      <q-tab icon="mail" route="/layout" exact replace>Mails</q-tab>
-      <q-tab icon="alarm" route="/layout/alarm" exact replace>Alarms</q-tab>
-      <q-tab icon="help" route="/layout/help" exact replace>Help</q-tab>
-    </q-tabs>
+    <quasar-tabs slot="navigation">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
     -->
 
     <!-- Drawer
-    <q-drawer ref="drawer">
+    <quasar-drawer>
       <div class="toolbar">
-        <q-toolbar-title>
+        <quasar-toolbar-title>
           Drawer Title
-        </q-toolbar-title>
+        </quasar-toolbar-title>
       </div>
 
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="mail" to="/" exact>
+        <quasar-drawer-link v-link="{path: '/', exact: true}" icon="mail">
           Link
-        </q-drawer-link>
+        </quasar-drawer-link>
       </div>
-    </q-drawer>
+    </quasar-drawer>
     -->
 
     <router-view class="layout-view"></router-view>
@@ -40,7 +40,7 @@
     <!-- Footer
     <div slot="footer" class="toolbar"></div>
     -->
-  </q-layout>
+  </quasar-layout>
 </template>
 
 <script>

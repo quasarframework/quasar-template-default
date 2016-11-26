@@ -1,12 +1,9 @@
-var
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  autoprefixer = require('autoprefixer')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports.postcss = [autoprefixer()]
-
-module.exports.styleLoaders = function (options) {
+exports.cssLoaders = function (options) {
   options = options || {}
 
+  // generate loader string to be used with extract text plugin
   function generateLoaders (loaders) {
     if (options.postcss) {
       loaders.splice(1, 0, 'postcss')
@@ -26,29 +23,29 @@ module.exports.styleLoaders = function (options) {
     }).join('!')
 
     if (options.extract) {
-      return ExtractTextPlugin.extract({
-        fallbackLoader: 'vue-style-loader',
-        loader: sourceLoader
-      })
+      return ExtractTextPlugin.extract('vue-style-loader', sourceLoader)
     }
     else {
       return ['vue-style-loader', sourceLoader].join('!')
     }
   }
 
+  // http://vuejs.github.io/vue-loader/configurations/extract-css.html
   return {
     css: generateLoaders(['css']),
+    postcss: generateLoaders(['css']),
     less: generateLoaders(['css', 'less']),
     sass: generateLoaders(['css', 'sass?indentedSyntax']),
     scss: generateLoaders(['css', 'sass']),
-    styl: generateLoaders(['css', 'stylus']),
-    stylus: generateLoaders(['css', 'stylus'])
+    stylus: generateLoaders(['css', 'stylus']),
+    styl: generateLoaders(['css', 'stylus'])
   }
 }
 
-module.exports.styleRules = function (options) {
+// Generate loaders for standalone style files (outside of .vue)
+exports.styleLoaders = function (options) {
   var output = []
-  var loaders = exports.styleLoaders(options)
+  var loaders = exports.cssLoaders(options)
   for (var extension in loaders) {
     var loader = loaders[extension]
     output.push({

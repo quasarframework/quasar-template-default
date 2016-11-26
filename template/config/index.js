@@ -1,14 +1,7 @@
+// see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
 
 module.exports = {
-  // Webpack aliases
-  aliases: {
-    quasar: path.resolve(__dirname, '../node_modules/quasar-framework/'),
-    src: path.resolve(__dirname, '../src'),
-    assets: path.resolve(__dirname, '../src/assets'),
-    components: path.resolve(__dirname, '../src/components')
-  },
-
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -22,30 +15,10 @@ module.exports = {
     productionGzipExtensions: ['js', 'css']
   },
   dev: {
-    env: require('./dev.env'),
     cssSourceMap: true,
-    // auto open browser or not
-    openBrowser: true,
-    publicPath: '/',
+    env: require('./dev.env'),
+    publicPath: '',
     port: 8080,
-    // Proxy your API if using any.
-    // Also see /build/script.dev.js and search for "proxy api requests"
-    // https://github.com/chimurai/http-proxy-middleware
     proxyTable: {}
   }
 }
-
-/*
- * proxyTable example:
- *
-   proxyTable: {
-      // proxy all requests starting with /api
-      '/api': {
-        target: 'https://some.address.com/api',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
- */

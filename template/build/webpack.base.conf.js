@@ -2,99 +2,83 @@ var
   path = require('path'),
   webpack = require('webpack'),
   config = require('../config'),
-  cssUtils = require('./css-utils'),
-  env = require('./env-utils'),
-  merge = require('webpack-merge'),
+  utils = require('./utils'),
   projectRoot = path.resolve(__dirname, '../'),
-  useCssSourceMap =
-    (env.dev && config.dev.cssSourceMap) ||
-    (env.prod && config.build.productionSourceMap)
+  autoprefixer = require('autoprefixer')
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/app.js'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: config[env.prod ? 'build' : 'dev'].publicPath,
+    publicPath: process.env.NODE_ENV === 'production' ? config.build.publicPath : config.dev.publicPath,
     filename: 'js/[name].js',
     chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.js', '.vue'],
-    modules: [
-      path.join(__dirname, '../src'),
-      'node_modules'
-    ],
-    alias: config.aliases
+    extensions: ['', '.js', '.vue'],
+    fallback: [path.join(__dirname, '../node_modules')],
+    alias: {
+      'quasar': path.resolve(__dirname, '../node_modules/quasar-framework/'),
+      'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets'),
+      'components': path.resolve(__dirname, '../src/components')
+    }
+  },
+  resolveLoader: {
+    fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
-    rules: [
-      { // eslint
-        enforce: 'pre',
+    preLoaders: [
+      {
         test: /\.(vue|js)$/,
-        loader: 'eslint-loader',
+        loader: 'eslint',
         include: projectRoot,
         exclude: /node_modules/
+      }
+    ],
+    loaders: [
+      {
+        test: /\.vue$/,
+        loader: 'vue'
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: 'babel',
         include: projectRoot,
         exclude: /node_modules/
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          postcss: cssUtils.postcss,
-          loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
-            sourceMap: useCssSourceMap,
-            extract: env.prod
-          }))
-        }
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
+        test: /\.html$/,
+        loader: 'vue-html'
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
+        loader: 'url',
+        query: {
           limit: 10000,
           name: 'img/[name].[hash:7].[ext]'
         }
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
+        loader: 'url',
+        query: {
           limit: 10000,
           name: 'fonts/[name].[hash:7].[ext]'
         }
       }
     ]
   },
+  eslint: {
+    formatter: require('eslint-friendly-formatter')
+  },
+  postcss: function () {
+    return [autoprefixer]
+  },
   plugins: [
-    /* Uncomment if you wish to load only one Moment locale: */
-    // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-
-    new webpack.DefinePlugin({
-      'process.env': config[env.prod ? 'build' : 'dev'].env,
-      'DEV': env.dev,
-      'PROD': env.prod,
-      '__THEME': '"' + env.platform.theme + '"'
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: env.prod,
-      options: {
-        context: path.resolve(__dirname, '../src'),
-        eslint: {
-          formatter: require('eslint-friendly-formatter')
-        },
-        postcss: cssUtils.postcss
-      }
-    })
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin()
   ]
 }
