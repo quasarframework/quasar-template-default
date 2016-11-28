@@ -28,7 +28,7 @@
       </div>
 
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="mail" to="/" exact>
+        <q-drawer-link icon="mail" :to="{path: '/', exact: true}">
           Link
         </q-drawer-link>
       </div>
