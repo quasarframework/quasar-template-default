@@ -8,6 +8,9 @@ module.exports = {
     assets: path.resolve(__dirname, '../src/assets'),
     components: path.resolve(__dirname, '../src/components')
   },
+  // Progress Bar Webpack plugin format
+  // https://github.com/clessg/progress-bar-webpack-plugin#options
+  progressFormat: ' [:bar] ' + ':percent'.bold + ' (:msg)',
 
   build: {
     env: require('./prod.env'),
