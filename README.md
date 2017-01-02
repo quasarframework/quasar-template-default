@@ -1,6 +1,6 @@
 ![Quasar Framework logo](http://quasar-framework.org/images/logo/xxhdpi.png)
 
-# Quasar Framework Default App Template
+# Quasar Framework Default Typescript App Template
 > Default Starter Kit for a Quasar Framework Project. Compatible with Quasar v0.9+
 
 ## Usage

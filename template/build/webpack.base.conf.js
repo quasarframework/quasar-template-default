@@ -13,7 +13,7 @@ var
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.ts'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -22,7 +22,7 @@ module.exports = {
     chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.ts', '.js', '.vue'],
     modules: [
       path.join(__dirname, '../src'),
       'node_modules'
@@ -31,18 +31,20 @@ module.exports = {
   },
   module: {
     rules: [
-      { // eslint
-        enforce: 'pre',
-        test: /\.(vue|js)$/,
-        loader: 'eslint-loader',
-        include: projectRoot,
-        exclude: /node_modules/
-      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         include: projectRoot,
         exclude: /node_modules/
+      },
+      {
+        test: /\.ts$/, 
+        loader: 'ts-loader',
+        include: projectRoot,
+        exclude: /node_modules/,
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
       },
       {
         test: /\.vue$/,
@@ -58,7 +60,7 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
-      },
+      },  
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
