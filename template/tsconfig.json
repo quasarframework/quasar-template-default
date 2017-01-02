@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
+        "target": "es5",
+        "lib": [
+            "dom", 
+            "es5", 
+            "es2015.promise"
+        ],
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "noImplicitThis": true,
+        "strictNullChecks": false,
+        "removeComments": false
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
