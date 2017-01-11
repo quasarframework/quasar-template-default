@@ -1,7 +1,7 @@
 <template>
   <q-layout>
     <div slot="header" class="toolbar">
-      <q-toolbar-title :padding="1">
+      <q-toolbar-title :padding="0">
         Quasar Framework v{{quasarVersion}}
       </q-toolbar-title>
     </div>
