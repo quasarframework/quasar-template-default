@@ -17,7 +17,7 @@ var
   port = process.env.PORT || config.dev.port,
   uri = 'http://localhost:' + port
 
-console.log(' Starting dev server with "' + (process.argv[2] || 'mat').bold + '" theme...')
+console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
 console.log(' Will listen at ' + uri.bold)
 if (config.dev.openBrowser) {
   console.log(' Browser will open when build is ready.\n')
