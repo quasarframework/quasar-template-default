@@ -10,7 +10,7 @@ var
   webpackConfig = require('./webpack.prod.conf'),
   targetPath = path.join(__dirname, '../dist')
 
-console.log(' Built files are meant to be served over an HTTP server.')		
+console.log(' Built files are meant to be served over an HTTP server.')
 console.log(' Opening index.html over file:// won\'t work.\n')
 
 console.log(' WARNING!'.bold)
