@@ -10,9 +10,6 @@ var
   webpackConfig = require('./webpack.prod.conf'),
   targetPath = path.join(__dirname, '../dist')
 
-console.log(' Built files are meant to be served over an HTTP server.')
-console.log(' Opening index.html over file:// won\'t work.\n')
-
 console.log(' WARNING!'.bold)
 console.log(' Do NOT use VueRouter\'s "history" mode if')
 console.log(' building for Cordova or Electron.\n')
