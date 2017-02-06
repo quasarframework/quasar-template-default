@@ -2,7 +2,7 @@
   <q-layout>
     <div slot="header" class="toolbar">
       <q-toolbar-title :padding="0">
-        Quasar Framework v{{quasarVersion}}
+        Quasar Framework v{{$q.version}}
       </q-toolbar-title>
     </div>
 
@@ -29,12 +29,11 @@
 var moveForce = 30
 var rotateForce = 40
 
-import Quasar, { Utils } from 'quasar'
+import { Utils } from 'quasar'
 
 export default {
   data () {
     return {
-      quasarVersion: Quasar.version,
       moveX: 0,
       moveY: 0,
       rotateY: 0,
