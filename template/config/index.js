@@ -35,6 +35,14 @@ module.exports = {
     openBrowser: true,
     publicPath: '/',
     port: 8080,
+
+    // If for example you are using Quasar Play
+    // to generate a QR code then on each dev (re)compilation
+    // you need to avoid clearing out the console, so set this
+    // to "false", otherwise you can set it to "true" to always
+    // have only the messages regarding your last (re)compilation.
+    clearConsoleOnRebuild: false,
+
     // Proxy your API if using any.
     // Also see /build/script.dev.js and search for "proxy api requests"
     // https://github.com/chimurai/http-proxy-middleware

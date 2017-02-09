@@ -33,7 +33,9 @@ module.exports = merge(baseWebpackConfig, {
       template: 'src/index.html',
       inject: true
     }),
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin({
+      clearConsole: config.dev.clearConsoleOnRebuild
+    })
   ],
   performance: {
     hints: false
