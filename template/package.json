@@ -16,7 +16,6 @@
     "moment": "^2.15.0",
     "quasar-framework": "^0.13.1",
     "roboto-fontface": "^0.7.0",
-    "velocity-animate": "^1.2.3",
     "vue": "2.1.10",
     "vue-router": "^2.0.0"
   },
