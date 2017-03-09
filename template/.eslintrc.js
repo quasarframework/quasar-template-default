@@ -8,7 +8,6 @@ module.exports = {
   },
   globals: {
     'cordova': true,
-    'Velocity': true,
     'DEV': true,
     'PROD': true,
     '__THEME': true
