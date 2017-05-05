@@ -16,8 +16,11 @@
         <div class="logo" :style="position">
           <img src="~assets/quasar-logo.png">
           <p class="caption text-center">
-            <span class="desktop-only">Move your mouse.</span>
-            <span class="touch-only">Touch screen and move.</span>
+            <span v-if="orienting">Change device orientation.</span>
+            <template v-else>
+              <span class="desktop-only">Move your mouse.</span>
+              <span class="touch-only">Touch screen and move.</span>
+            </template>
           </p>
         </div>
       </div>
@@ -29,11 +32,12 @@
 var moveForce = 30
 var rotateForce = 40
 
-import { Utils } from 'quasar'
+import { Utils, Platform } from 'quasar'
 
 export default {
   data () {
     return {
+      orienting: window.DeviceOrientationEvent && !Platform.is.desktop,
       moveX: 0,
       moveY: 0,
       rotateY: 0,
@@ -53,9 +57,9 @@ export default {
     }
   },
   methods: {
-    move (event) {
+    move (evt) {
       const {width, height} = Utils.dom.viewport()
-      const {top, left} = Utils.event.position(event)
+      const {top, left} = Utils.event.position(evt)
       const halfH = height / 2
       const halfW = width / 2
 
@@ -63,17 +67,29 @@ export default {
       this.moveY = (top - halfH) / halfH * -moveForce
       this.rotateY = (left / width * rotateForce * 2) - rotateForce
       this.rotateX = -((top / height * rotateForce * 2) - rotateForce)
+    },
+    orient (evt) {
+      this.rotateX = evt.beta * 0.7
+      this.rotateY = evt.gamma * -0.7
     }
   },
   mounted () {
     this.$nextTick(() => {
-      document.addEventListener('mousemove', this.move)
-      document.addEventListener('touchmove', this.move)
+      if (this.orienting) {
+        window.addEventListener('deviceorientation', this.orient, false)
+      }
+      else {
+        document.addEventListener('mousemove', this.move)
+      }
     })
   },
   beforeDestroy () {
-    document.removeEventListener('mousemove', this.move)
-    document.removeEventListener('touchmove', this.move)
+    if (this.orienting) {
+      window.removeEventListener('deviceorientation', this.orient, false)
+    }
+    else {
+      document.removeEventListener('mousemove', this.move)
+    }
   }
 }
 </script>
