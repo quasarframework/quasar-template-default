@@ -1,5 +1,6 @@
 var
   path = require('path'),
+  fs = require('fs'),
   webpack = require('webpack'),
   config = require('../config'),
   cssUtils = require('./css-utils'),
@@ -11,11 +12,14 @@ var
     (env.dev && config.dev.cssSourceMap) ||
     (env.prod && config.build.productionSourceMap)
 
+// Load config based on current NODE_ENV
+var clientConfig = require('config')
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
+var webpackConfig = {
   entry: {
     app: './src/main.js'
   },
@@ -113,3 +117,9 @@ module.exports = {
     hints: false
   }
 }
+
+// This will take the config based on the current NODE_ENV and save it to 'config/client-config.json'
+// A webpack alias will then integrate that file into the client build.
+fs.writeFileSync(path.join('config', 'client-config.json'), JSON.stringify(clientConfig))
+
+module.exports = webpackConfig
