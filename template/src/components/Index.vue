@@ -16,7 +16,7 @@
         <div class="logo" :style="position">
           <img src="~assets/quasar-logo.png">
           <p class="caption text-center">
-            <span v-if="orienting">Change device orientation.</span>
+            <span v-if="orienting">Tilt your device.</span>
             <template v-else>
               <span class="desktop-only">Move your mouse.</span>
               <span class="touch-only">Touch screen and move.</span>
