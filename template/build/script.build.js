@@ -41,10 +41,5 @@ webpack(webpackConfig, function (err, stats) {
     chunkModules: false
   }) + '\n')
 
-  if (config.build.purifyCSS) {
-    css.purify(finalize)
-  }
-  else {
-    finalize()
-  }
+  finalize()
 })
