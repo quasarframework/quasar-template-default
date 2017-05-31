@@ -7,17 +7,15 @@ var
   merge = require('webpack-merge'),
   projectRoot = path.resolve(__dirname, '../'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
+  CopyWebpackPlugin = require('copy-webpack-plugin'),
+  SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin'),
   useCssSourceMap =
     (env.dev && config.dev.cssSourceMap) ||
     (env.prod && config.build.productionSourceMap)
 
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
-}
-
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.ts'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -26,40 +24,41 @@ module.exports = {
     chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.ts', '.js'],
     modules: [
-      resolve('src'),
-      resolve('node_modules')
+      path.join(__dirname, '../src'),
+      'node_modules'
     ],
     alias: config.aliases
   },
   module: {
     rules: [
-      { // eslint
-        enforce: 'pre',
-        test: /\.(vue|js)$/,
-        loader: 'eslint-loader',
-        include: projectRoot,
-        exclude: /node_modules/,
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
+       { 
+        test: /\.ts$/, 
+        exclude: /node_modules/, enforce: 'pre', 
+        loader: 'tslint-loader' 
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: projectRoot,
-        exclude: /node_modules/
+        test: /\.ts$/,
+        exclude: /node_modules|vue\/src/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
+          esModule: true,
           postcss: cssUtils.postcss,
-          loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
-            sourceMap: useCssSourceMap,
-            extract: env.prod
-          }))
+          loaders: merge(
+            cssUtils.styleLoaders({
+              sourceMap: useCssSourceMap,
+              extract: env.prod
+            }),
+            { ts: 'ts-loader!tslint-loader' }
+          )
         }
       },
       {
@@ -91,7 +90,22 @@ module.exports = {
 
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     */
-
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/manifest.json'),
+        to: path.resolve(__dirname, '../dist/manifest.json')
+      },
+      {
+        from: path.resolve(__dirname, '../src/icons'),
+        to: path.resolve(__dirname, '../dist')
+      }
+    ], {}),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'my-quasar-app',
+      filename: 'service-worker.js',
+      minify: false,
+      stripPrefix: 'dist/'
+    }),
     new webpack.DefinePlugin({
       'process.env': config[env.prod ? 'build' : 'dev'].env,
       'DEV': env.dev,
@@ -111,5 +125,6 @@ module.exports = {
   ],
   performance: {
     hints: false
-  }
+  },
+  devtool: 'source-map'
 }
