@@ -1,14 +1,17 @@
 ![Quasar Framework logo](http://quasar-framework.org/images/logo/xxhdpi.png)
 
 # Quasar Framework Default App Template
-> Default Starter Kit for a Quasar Framework Project. Compatible with Quasar v0.9+
+> TypeScript-based Starter Kit for a Quasar Framework Project that provides a PWA out of the box.
+> Based on the [default Quasar template](https://github.com/quasarframework/quasar-template-default)
 
 ## Usage
 Use Quasar CLI to generate a new project using this template:
 
 ``` bash
-$ quasar init <folder-name>
+$ quasar init @Almendio/quasar-template-typescript <folder-name>
 ```
+
+(tested with quasar-cli 0.6.1)
 
 # Quasar Framework
 > Build responsive websites and hybrid mobile Apps (that look native!) using same code, with VueJs.
@@ -62,6 +65,7 @@ Check its repo here: [Quasar Play](https://github.com/quasarframework/quasar-pla
 
 ## License
 
-Copyright (c) 2016-2017 Razvan Stoenescu
+Original work Copyright (c) 2016-2017 Razvan Stoenescu 
+Modified work Copyright (c) 2017 Almendio Ltd.
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
