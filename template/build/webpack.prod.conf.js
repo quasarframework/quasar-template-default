@@ -80,12 +80,15 @@ module.exports = merge(baseWebpackConfig, {
 
       staticFileGlobs: [
         'js/**.js',
+        'fonts/**.woff',
+        'statics/*',
+        '/**.html',
         '/**.css'
       ],
 
       runtimeCaching: [{
         urlPattern: /\/.*/,
-        handler: 'networkFirst'
+        handler: 'cacheFirst'
       }],
 
       dontCacheBustUrlsMatching: /./,
