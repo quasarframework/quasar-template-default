@@ -1,39 +1,80 @@
 <template>
-  <q-layout>
-    <div slot="header" class="toolbar">
-      <q-toolbar-title :padding="0">
+  <q-layout
+    ref="layout"
+    view="lHh Lpr fff"
+    :left-class="{'bg-grey-2': true}"
+  >
+    <q-toolbar slot="header">
+      <q-btn
+        flat
+        @click="$refs.layout.toggleLeft()"
+      >
+        <q-icon name="menu" />
+      </q-btn>
+
+      <q-toolbar-title>
         Quasar Framework v{{$q.version}}
       </q-toolbar-title>
+    </q-toolbar>
+
+    <div slot="left">
+      <q-list no-border link inset-delimiter>
+        <q-list-header>Essential Links</q-list-header>
+        <q-item @click="launch('http://quasar-framework.org')">
+          <q-item-side icon="school" />
+          <q-item-main label="Docs" sublabel="quasar-framework.org" />
+        </q-item>
+        <q-item @click="launch('http://forum.quasar-framework.org')">
+          <q-item-side icon="record_voice_over" />
+          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
+        </q-item>
+        <q-item @click="launch('https://gitter.im/quasarframework/Lobby')">
+          <q-item-side icon="chat" />
+          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
+        </q-item>
+        <q-item @click="launch('https://twitter.com/quasarframework')">
+          <q-item-side icon="rss feed" />
+          <q-item-main label="Twitter" sublabel="@quasarframework" />
+        </q-item>
+      </q-list>
     </div>
 
     <!--
       Replace following "div" with
-      "<router-view class="layout-view">" component
+      "<router-view>" component
       if using subRoutes
     -->
-    <div class="layout-view">
-      <div class="logo-container non-selectable no-pointer-events">
-        <div class="logo" :style="position">
-          <img src="~assets/quasar-logo.png">
-          <p class="caption text-center">
-            <span v-if="orienting || rotating">Tilt your device.</span>
-            <template v-else>
-              <span class="desktop-only">Move your mouse.</span>
-              <span class="touch-only">Touch screen and move.</span>
-            </template>
-          </p>
-        </div>
+    <div class="logo-container non-selectable no-pointer-events">
+      <div class="logo" :style="position">
+        <img src="~assets/quasar-logo-full.svg">
       </div>
     </div>
   </q-layout>
 </template>
 
 <script>
-const moveForce = 30
-const rotateForce = 40
-const RAD_TO_DEG = 180 / Math.PI
+import {
+  dom,
+  event,
+  openURL,
+  QLayout,
+  QToolbar,
+  QToolbarTitle,
+  QBtn,
+  QIcon,
+  QList,
+  QListHeader,
+  QItem,
+  QItemSide,
+  QItemMain
+} from 'quasar'
 
-import { Utils, Platform } from 'quasar'
+const
+  { viewport } = dom,
+  { position } = event,
+  moveForce = 30,
+  rotateForce = 40,
+  RAD_TO_DEG = 180 / Math.PI
 
 function getRotationFromAccel (accelX, accelY, accelZ) {
   /* Reference: http://stackoverflow.com/questions/3755059/3d-accelerometer-calculate-the-orientation#answer-30195572 */
@@ -47,10 +88,23 @@ function getRotationFromAccel (accelX, accelY, accelZ) {
 }
 
 export default {
+  name: 'index',
+  components: {
+    QLayout,
+    QToolbar,
+    QToolbarTitle,
+    QBtn,
+    QIcon,
+    QList,
+    QListHeader,
+    QItem,
+    QItemSide,
+    QItemMain
+  },
   data () {
     return {
-      orienting: window.DeviceOrientationEvent && !Platform.is.desktop,
-      rotating: window.DeviceMotionEvent && !Platform.is.desktop,
+      orienting: window.DeviceOrientationEvent && !this.$q.platform.is.desktop,
+      rotating: window.DeviceMotionEvent && !this.$q.platform.is.desktop,
       moveX: 0,
       moveY: 0,
       rotateY: 0,
@@ -70,9 +124,12 @@ export default {
     }
   },
   methods: {
+    launch (url) {
+      openURL(url)
+    },
     move (evt) {
-      const {width, height} = Utils.dom.viewport()
-      const {top, left} = Utils.event.position(evt)
+      const {width, height} = viewport()
+      const {top, left} = position(evt)
       const halfH = height / 2
       const halfW = width / 2
 

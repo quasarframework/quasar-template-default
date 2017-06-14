@@ -1,16 +1,11 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module'
   },
   env: {
-    browser: true
-  },
-  globals: {
-    'cordova': true,
-    'DEV': true,
-    'PROD': true,
-    '__THEME': true
+    browser: true,
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',
@@ -18,6 +13,12 @@ module.exports = {
   plugins: [
     'html'
   ],
+  globals: {
+    'cordova': true,
+    'DEV': true,
+    'PROD': true,
+    '__THEME': true
+  },
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions
