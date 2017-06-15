@@ -13,8 +13,8 @@
       </q-btn>
 
       <q-toolbar-title>
-        Quasar Framework
-        <div slot="subtitle">Running v{{$q.version}}</div>
+        Quasar App
+        <div slot="subtitle">Running on Quasar v{{$q.version}}</div>
       </q-toolbar-title>
     </q-toolbar>
 
@@ -41,11 +41,11 @@
     </div>
 
     <!--
-      Replace following "div" with
-      "<router-view>" component
+      Replace following <div> with
+      <router-view /> component
       if using subRoutes
     -->
-    <div class="logo-container non-selectable no-pointer-events">
+    <div class="layout-padding logo-container non-selectable no-pointer-events">
       <div class="logo" :style="position">
         <img src="~assets/quasar-logo-full.svg">
       </div>
