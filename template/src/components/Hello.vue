@@ -4,7 +4,7 @@
     view="lHh Lpr fff"
     :left-class="{'bg-grey-2': true}"
   >
-    <q-toolbar slot="header">
+    <q-toolbar slot="header" class="glossy">
       <q-btn
         flat
         @click="$refs.layout.toggleLeft()"
@@ -13,7 +13,8 @@
       </q-btn>
 
       <q-toolbar-title>
-        Quasar Framework v{{$q.version}}
+        Quasar Framework
+        <div slot="subtitle">Running v{{$q.version}}</div>
       </q-toolbar-title>
     </q-toolbar>
 
@@ -128,10 +129,11 @@ export default {
       openURL(url)
     },
     move (evt) {
-      const {width, height} = viewport()
-      const {top, left} = position(evt)
-      const halfH = height / 2
-      const halfW = width / 2
+      const
+        {width, height} = viewport(),
+        {top, left} = position(evt),
+        halfH = height / 2,
+        halfW = width / 2
 
       this.moveX = (left - halfW) / halfW * -moveForce
       this.moveY = (top - halfH) / halfH * -moveForce
@@ -148,11 +150,12 @@ export default {
       else {
         /* evt.acceleration may be null in some cases, so we'll fall back
            to evt.accelerationIncludingGravity */
-        const accelX = evt.acceleration.x || evt.accelerationIncludingGravity.x
-        const accelY = evt.acceleration.y || evt.accelerationIncludingGravity.y
-        const accelZ = evt.acceleration.z || evt.accelerationIncludingGravity.z - 9.81
+        const
+          accelX = evt.acceleration.x || evt.accelerationIncludingGravity.x,
+          accelY = evt.acceleration.y || evt.accelerationIncludingGravity.y,
+          accelZ = evt.acceleration.z || evt.accelerationIncludingGravity.z - 9.81,
+          rotation = getRotationFromAccel(accelX, accelY, accelZ)
 
-        const rotation = getRotationFromAccel(accelX, accelY, accelZ)
         this.rotateX = rotation.roll * 0.7
         this.rotateY = rotation.pitch * -0.7
       }
@@ -199,8 +202,8 @@ export default {
 
 <style lang="stylus">
 .logo-container
-  width 192px
-  height 268px
+  width 255px
+  height 242px
   perspective 800px
   position absolute
   top 50%
