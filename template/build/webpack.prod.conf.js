@@ -8,6 +8,7 @@ var
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+  SWPrecachePlugin = require('sw-precache-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -70,6 +71,29 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
+    }),
+    // auto generate service-worker for caching static files
+    new SWPrecachePlugin({
+      cacheId: 'quasar-app',
+      filename: 'service-worker-cache.js',
+      minify: true,
+
+      staticFileGlobs: [
+        'js/**.js',
+        'fonts/**.woff',
+        'statics/*',
+        '/**.html',
+        '/**.css'
+      ],
+
+      runtimeCaching: [{
+        urlPattern: /\/.*/,
+        handler: 'cacheFirst'
+      }],
+
+      dontCacheBustUrlsMatching: /./,
+      navigateFallback: '/'
+
     })
   ]
 })
