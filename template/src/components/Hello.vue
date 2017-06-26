@@ -19,6 +19,12 @@
     </q-toolbar>
 
     <div slot="left">
+      <!--
+        Use <q-side-link> component 
+        instead of <q-item> for 
+        internal vue-router navigation
+      -->
+
       <q-list no-border link inset-delimiter>
         <q-list-header>Essential Links</q-list-header>
         <q-item @click="launch('http://quasar-framework.org')">
@@ -37,12 +43,6 @@
           <q-item-side icon="rss feed" />
           <q-item-main label="Twitter" sublabel="@quasarframework" />
         </q-item>
-        
-        <!--
-          Use <q-side-link> component 
-          instead of <q-item> for 
-          internal vue-router navigation
-        -->
       </q-list>
     </div>
 
