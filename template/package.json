@@ -27,6 +27,7 @@
     "colors": "^1.1.2",
     "connect-history-api-fallback": "^1.1.0",
     "css-loader": "^0.28.0",
+    "es6-promise": "^4.1.1",
     "eslint": "^3.0.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^2.0.5",
