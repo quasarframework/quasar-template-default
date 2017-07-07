@@ -1,27 +1,15 @@
-import * as Vue from 'vue'
-import * as VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Hello from './components/Hello.vue';
+import Error404 from './components/Error404.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-function load (component) {
-  return () => System.import(`components/${component}.vue`)
-}
-
-export default new VueRouter({
-  /*
-   * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
-   * it is only to be used only for websites.
-   *
-   * If you decide to go with "history" mode, please also open /config/index.js
-   * and set "build.publicPath" to something other than an empty string.
-   * Example: '/' instead of current ''
-   *
-   * If switching back to default "hash" mode, don't forget to set the
-   * build publicPath back to '' so Cordova builds work again.
-   */
-
+export const AppRouter = new VueRouter({
   routes: [
-    { path: '/', component: load('Index') }, // Default
-    { path: '*', component: load('Error404') } // Not found
+    { path: '/', component: Hello }, // Default
+    { path: '*', component: Error404 } // Not found
   ]
-})
+});
+
+export default AppRouter;

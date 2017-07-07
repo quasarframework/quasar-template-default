@@ -22,7 +22,7 @@ module.exports = {
     chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue'],
+    extensions: ['.ts', '.js'],
     modules: [
       path.join(__dirname, '../src'),
       'node_modules'
@@ -31,17 +31,15 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: projectRoot,
-        exclude: /node_modules/
+       { 
+        test: /\.ts$/, 
+        exclude: /node_modules/, enforce: 'pre', 
+        loader: 'tslint-loader' 
       },
       {
-        test: /\.ts$/, 
+        test: /\.ts$/,
+        exclude: /node_modules|vue\/src/,
         loader: 'ts-loader',
-        include: projectRoot,
-        exclude: /node_modules/,
         options: {
           appendTsSuffixTo: [/\.vue$/]
         }
@@ -60,7 +58,7 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
-      },  
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
@@ -80,8 +78,12 @@ module.exports = {
     ]
   },
   plugins: [
-    /* Uncomment if you wish to load only one Moment locale: */
-    // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    /*
+      Take note!
+      Uncomment if you wish to load only one Moment locale:
+
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    */
 
     new webpack.DefinePlugin({
       'process.env': config[env.prod ? 'build' : 'dev'].env,
@@ -93,9 +95,6 @@ module.exports = {
       minimize: env.prod,
       options: {
         context: path.resolve(__dirname, '../src'),
-        eslint: {
-          formatter: require('eslint-friendly-formatter')
-        },
         postcss: cssUtils.postcss
       }
     }),
@@ -107,3 +106,4 @@ module.exports = {
     hints: false
   }
 }
+
