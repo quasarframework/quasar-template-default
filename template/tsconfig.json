@@ -6,14 +6,21 @@
         "lib": [
             "dom", 
             "es5", 
+            "es2015",
             "es2015.promise"
         ],
         "experimentalDecorators": true,
         "noImplicitAny": false,
         "noImplicitThis": true,
         "strictNullChecks": false,
-        "removeComments": false
+        "removeComments": false,
+        "allowJs":true,
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true
     },
+    "compileOnSave": false,
     "exclude": [
         "node_modules"
     ]
