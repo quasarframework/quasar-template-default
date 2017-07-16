@@ -7,7 +7,7 @@
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
-    "lint": "eslint --ext .js,.vue src",
+    "lint": "tslint -p . -c tslint.json -t verbose --force",
     "unit": "cross-env karma start test/unit/karma.conf.js --single-run"
   },
   "dependencies": {
