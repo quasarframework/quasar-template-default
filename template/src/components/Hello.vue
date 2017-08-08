@@ -20,8 +20,8 @@
 
     <div slot="left">
       <!--
-        Use <q-side-link> component 
-        instead of <q-item> for 
+        Use <q-side-link> component
+        instead of <q-item> for
         internal vue-router navigation
       -->
 
