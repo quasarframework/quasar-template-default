@@ -13,7 +13,7 @@
     "babel-runtime": "^6.25.0",
     "quasar-extras": "0.x",
     "quasar-framework": "git+https://git@github.com/quasarframework/quasar-edge.git",
-    "vue": "~2.3.0",
+    "vue": "~2.3.4",
     "vue-router": "^2.7.0"
   },
   "devDependencies": {
@@ -55,12 +55,12 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.7",
-    "vue-loader": "^12.2.2",
+    "vue-loader": "~12.2.2",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "~2.3.0",
-    "webpack": "^3.5.1",
+    "vue-template-compiler": "~2.3.4",
+    "webpack": "^3.5.2",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
-    "webpack-merge": "^4.0.0"
+    "webpack-merge": "^4.1.0"
   }
 }
