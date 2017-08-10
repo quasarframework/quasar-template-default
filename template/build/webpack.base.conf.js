@@ -58,7 +58,7 @@ module.exports = {
           postcss: cssUtils.postcss,
           loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
             sourceMap: useCssSourceMap,
-            extract: env.prod
+            extractCSS: env.prod
           }))
         }
       },
