@@ -14,7 +14,7 @@
     "babel-runtime": "^6.25.0",
     "quasar-extras": "0.x",
     "quasar-framework": "git+https://git@github.com/quasarframework/quasar-edge.git",
-    "vue": "^2.4.2",
+    "vue": "~2.3.4",
     "vue-router": "^2.7.0"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "vue-class-component": "^5.0.2",
     "vue-loader": "^12.2.2",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.4.2",
+    "vue-template-compiler": "~2.3.4",
     "webpack": "^3.5.4",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
