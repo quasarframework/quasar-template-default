@@ -1,87 +1,39 @@
 <template>
-  <q-layout
-    ref="layout"
-    view="lHh Lpr fff"
-    :left-class="{'bg-grey-2': true}"
-  >
-    <q-toolbar slot="header" class="glossy">
-      <q-btn
-        flat
-        @click="$refs.layout.toggleLeft()"
-      >
-        <q-icon name="menu" />
-      </q-btn>
-
-      <q-toolbar-title>
-        Quasar App
-        <div slot="subtitle">Running on Quasar v{{$q.version}}</div>
+  <q-layout>
+    <div slot="header" class="toolbar">
+      <q-toolbar-title :padding="0">
+        Quasar Framework v{{$q.version}}
       </q-toolbar-title>
-    </q-toolbar>
-
-    <div slot="left">
-      <!--
-        Use <q-side-link> component
-        instead of <q-item> for
-        internal vue-router navigation
-      -->
-
-      <q-list no-border link inset-delimiter>
-        <q-list-header>Essential Links</q-list-header>
-        <q-item @click="launch('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-item>
-        <q-item @click="launch('http://forum.quasar-framework.org')">
-          <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-item>
-        <q-item @click="launch('https://gitter.im/quasarframework/Lobby')">
-          <q-item-side icon="chat" />
-          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
-        </q-item>
-        <q-item @click="launch('https://twitter.com/quasarframework')">
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
-        </q-item>
-      </q-list>
     </div>
 
     <!--
-      Replace following <div> with
-      <router-view /> component
+      Replace following "div" with
+      "<router-view class="layout-view">" component
       if using subRoutes
     -->
-    <div class="layout-padding logo-container non-selectable no-pointer-events">
-      <div class="logo" :style="position">
-        <img src="~assets/quasar-logo-full.svg">
+    <div class="layout-view">
+      <div class="logo-container non-selectable no-pointer-events">
+        <div class="logo" :style="position">
+          <img src="~assets/quasar-logo.png">
+          <p class="caption text-center">
+            <span v-if="orienting || rotating">Tilt your device.</span>
+            <template v-else>
+              <span class="desktop-only">Move your mouse.</span>
+              <span class="touch-only">Touch screen and move.</span>
+            </template>
+          </p>
+        </div>
       </div>
     </div>
   </q-layout>
 </template>
 
 <script>
-import {
-  dom,
-  event,
-  openURL,
-  QLayout,
-  QToolbar,
-  QToolbarTitle,
-  QBtn,
-  QIcon,
-  QList,
-  QListHeader,
-  QItem,
-  QItemSide,
-  QItemMain
-} from 'quasar'
+const moveForce = 30
+const rotateForce = 40
+const RAD_TO_DEG = 180 / Math.PI
 
-const
-  { viewport } = dom,
-  { position } = event,
-  moveForce = 30,
-  rotateForce = 40,
-  RAD_TO_DEG = 180 / Math.PI
+import { Utils, Platform } from 'quasar'
 
 function getRotationFromAccel (accelX, accelY, accelZ) {
   /* Reference: http://stackoverflow.com/questions/3755059/3d-accelerometer-calculate-the-orientation#answer-30195572 */
@@ -95,23 +47,10 @@ function getRotationFromAccel (accelX, accelY, accelZ) {
 }
 
 export default {
-  name: 'index',
-  components: {
-    QLayout,
-    QToolbar,
-    QToolbarTitle,
-    QBtn,
-    QIcon,
-    QList,
-    QListHeader,
-    QItem,
-    QItemSide,
-    QItemMain
-  },
   data () {
     return {
-      orienting: window.DeviceOrientationEvent && !this.$q.platform.is.desktop,
-      rotating: window.DeviceMotionEvent && !this.$q.platform.is.desktop,
+      orienting: window.DeviceOrientationEvent && !Platform.is.desktop,
+      rotating: window.DeviceMotionEvent && !Platform.is.desktop,
       moveX: 0,
       moveY: 0,
       rotateY: 0,
@@ -131,15 +70,11 @@ export default {
     }
   },
   methods: {
-    launch (url) {
-      openURL(url)
-    },
     move (evt) {
-      const
-        {width, height} = viewport(),
-        {top, left} = position(evt),
-        halfH = height / 2,
-        halfW = width / 2
+      const {width, height} = Utils.dom.viewport()
+      const {top, left} = Utils.event.position(evt)
+      const halfH = height / 2
+      const halfW = width / 2
 
       this.moveX = (left - halfW) / halfW * -moveForce
       this.moveY = (top - halfH) / halfH * -moveForce
@@ -156,12 +91,11 @@ export default {
       else {
         /* evt.acceleration may be null in some cases, so we'll fall back
            to evt.accelerationIncludingGravity */
-        const
-          accelX = evt.acceleration.x || evt.accelerationIncludingGravity.x,
-          accelY = evt.acceleration.y || evt.accelerationIncludingGravity.y,
-          accelZ = evt.acceleration.z || evt.accelerationIncludingGravity.z - 9.81,
-          rotation = getRotationFromAccel(accelX, accelY, accelZ)
+        const accelX = evt.acceleration.x || evt.accelerationIncludingGravity.x
+        const accelY = evt.acceleration.y || evt.accelerationIncludingGravity.y
+        const accelZ = evt.acceleration.z || evt.accelerationIncludingGravity.z - 9.81
 
+        const rotation = getRotationFromAccel(accelX, accelY, accelZ)
         this.rotateX = rotation.roll * 0.7
         this.rotateY = rotation.pitch * -0.7
       }
@@ -208,8 +142,8 @@ export default {
 
 <style lang="stylus">
 .logo-container
-  width 255px
-  height 242px
+  width 192px
+  height 268px
   perspective 800px
   position absolute
   top 50%

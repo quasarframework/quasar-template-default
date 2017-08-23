@@ -4,8 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 function load (component) {
-  // '@' is aliased to src/components
-  return () => import(`@/${component}.vue`)
+  return () => System.import(`components/${component}.vue`)
 }
 
 export default new VueRouter({
@@ -22,9 +21,7 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Hello') },
-
-    // Always leave this last one
+    { path: '/', component: load('Index') }, // Default
     { path: '*', component: load('Error404') } // Not found
   ]
 })

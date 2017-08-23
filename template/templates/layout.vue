@@ -1,62 +1,44 @@
 <template>
-  <!-- Configure "view" prop for QLayout -->
   <q-layout>
-    <q-toolbar slot="header">
+    <div slot="header" class="toolbar">
       <!-- opens drawer below
       <button class="hide-on-drawer-visible" @click="$refs.drawer.open()">
         <i>menu</i>
       </button>
       -->
-      <q-toolbar-title>
+      <q-toolbar-title :padding="1">
         Title
       </q-toolbar-title>
-    </q-toolbar>
+    </div>
 
     <!-- Navigation Tabs
     <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="view_quilt" to="/layout/about" replace hide="icon" label="About" />
-      <q-route-tab slot="title" icon="view_day" to="/layout/toolbar" replace hide="icon" label="Toolbar" />
-      <q-route-tab slot="title" icon="view_day" to="/layout/tabs" replace label="Tabs" />
-      <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" />
+      <q-tab icon="mail" route="/layout" exact replace>Mails</q-tab>
+      <q-tab icon="alarm" route="/layout/alarm" exact replace>Alarms</q-tab>
+      <q-tab icon="help" route="/layout/help" exact replace>Help</q-tab>
     </q-tabs>
     -->
 
-    <!-- Left Side Panel
-    <div slot="left">
-      <q-list no-border link inset-delimiter>
-        <q-list-header>Essential Links</q-list-header>
-        <q-item>
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
-        </q-item>
-        <q-item>
-          <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-item>
-        <q-item>
-          <q-item-side icon="chat" />
-          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
-        </q-item>
-        <q-item>
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
-        </q-item>
-      </q-list>
-    </div>
+    <!-- Drawer
+    <q-drawer ref="drawer">
+      <div class="toolbar">
+        <q-toolbar-title>
+          Drawer Title
+        </q-toolbar-title>
+      </div>
+
+      <div class="list no-border platform-delimiter">
+        <q-drawer-link icon="mail" :to="{path: '/', exact: true}">
+          Link
+        </q-drawer-link>
+      </div>
+    </q-drawer>
     -->
 
-    <!-- Right Side Panel
-    <div slot="right">
-      ...
-    </div>
-    -->
-
-    <router-view />
+    <router-view class="layout-view"></router-view>
 
     <!-- Footer
-    <q-toolbar slot="footer">
-      ...
-    </q-toolbar>
+    <div slot="footer" class="toolbar"></div>
     -->
   </q-layout>
 </template>

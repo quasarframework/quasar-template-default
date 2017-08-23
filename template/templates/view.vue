@@ -1,7 +1,10 @@
 <template>
-  <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
+  <!-- root node required -->
+  <div>
     <!-- your content -->
+    <div class="layout-padding">
+      <!-- if you want automatic padding -->
+    </div>
   </div>
 </template>
 

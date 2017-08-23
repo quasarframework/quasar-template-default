@@ -74,7 +74,7 @@ app.use(express.static(env.platform.cordovaAssets))
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
-    process.exit(1)
+    return
   }
 
   // open browser if set so in /config/index.js
