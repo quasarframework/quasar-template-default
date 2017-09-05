@@ -1,5 +1,6 @@
 {
   "name": "quasar-app",
+  "productName": "Quasar App",
   "version": "0.0.1",
   "description": "A Quasar App",
   "author": "Your Name",
