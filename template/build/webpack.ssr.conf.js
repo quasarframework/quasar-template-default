@@ -18,7 +18,7 @@ module.exports = Object.assign({}, baseConfig, {
   devServer: undefined,
   devtool: '#cheap-module-eval-source-map',
   entry: [
-    path.resolve(__dirname, `../${serverFolder}/vue-server-side-rendering.js`)
+    path.resolve(__dirname, `../${serverFolder}/${config.ssrFile}`)
   ],
   output: {
     libraryTarget: 'commonjs2',
