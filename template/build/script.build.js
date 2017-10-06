@@ -10,6 +10,7 @@ var
   config = require('../config'),
   webpack = require('webpack'),
   webpackConfig = require('./webpack.prod.conf'),
+  renderSSR = require('./script.ssr'),
   targetPath = path.join(__dirname, '../dist')
 
 console.log(' WARNING!'.bold)
@@ -29,6 +30,12 @@ function finalize () {
 
   console.log(' Built files are meant to be served over an HTTP server.'.bold)
   console.log(' Opening index.html over file:// won\'t work.'.bold)
+}
+
+// Compile SSR
+if (config.renderSSR) {
+  const renderSSR = require('./script.ssr')
+  renderSSR({ watch: false })
 }
 
 webpack(webpackConfig, function (err, stats) {

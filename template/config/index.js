@@ -17,6 +17,9 @@ module.exports = {
   // Default theme to build with ('ios' or 'mat')
   defaultTheme: 'mat',
 
+  serverFolder: 'api',
+  renderSSR: false,
+
   build: {
     env: require('./prod.env'),
     publicPath: '',
