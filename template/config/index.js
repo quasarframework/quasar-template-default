@@ -23,6 +23,9 @@ module.exports = {
   // Will look into the root of the serverFolder for this file
   ssrFile: 'vue-server-side-rendering.js',
 
+  // Build output path rooted in serverFolder for SSR
+  ssrBuildOutputPath: 'src/ssr/',
+
   // Should webpack compile the ssrFile
   renderSSR: false,
 

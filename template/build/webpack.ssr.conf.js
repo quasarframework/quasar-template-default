@@ -18,11 +18,19 @@ module.exports = Object.assign({}, baseConfig, {
   devServer: undefined,
   devtool: '#cheap-module-eval-source-map',
   entry: [
-    path.resolve(__dirname, `../${serverFolder}/${config.ssrFile}`)
+    path.resolve(
+      __dirname, `../`, 
+      serverFolder, 
+      config.ssrFile
+    )
   ],
   output: {
     libraryTarget: 'commonjs2',
-    path: path.resolve(__dirname, `../${serverFolder}/src/ssr/`),
+    path: path.resolve(
+      __dirname, `../`, 
+      serverFolder, 
+      config.buildOutputPath
+    ),
     filename: 'compiled-ssr.js',
   },
   module: {
