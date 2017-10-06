@@ -4,6 +4,7 @@
 
 ## Build Setup
 
+``` bash
 # install dependencies
 $ npm install
 
@@ -16,3 +17,5 @@ $ quasar build
 # lint code
 $ quasar lint
 ```
+
+
