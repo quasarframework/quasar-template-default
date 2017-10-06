@@ -10,7 +10,6 @@ var
   config = require('../config'),
   webpack = require('webpack'),
   webpackConfig = require('./webpack.prod.conf'),
-  renderSSR = require('./script.ssr'),
   targetPath = path.join(__dirname, '../dist')
 
 console.log(' WARNING!'.bold)
