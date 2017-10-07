@@ -21,6 +21,12 @@ if (config.dev.openBrowser) {
   console.log(' Browser will open when build is ready.\n')
 }
 
+// Compile SSR
+if (config.renderSSR) {
+  const renderSSR = require('./script.ssr')
+  renderSSR({ watch: true })
+}
+
 var compiler = webpack(webpackConfig)
 
 // Define HTTP proxies to your custom API backend

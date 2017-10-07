@@ -31,6 +31,12 @@ function finalize () {
   console.log(' Opening index.html over file:// won\'t work.'.bold)
 }
 
+// Compile SSR
+if (config.renderSSR) {
+  const renderSSR = require('./script.ssr')
+  renderSSR({ watch: false })
+}
+
 webpack(webpackConfig, function (err, stats) {
   if (err) throw err
 

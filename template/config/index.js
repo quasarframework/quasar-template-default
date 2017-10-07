@@ -17,6 +17,18 @@ module.exports = {
   // Default theme to build with ('ios' or 'mat')
   defaultTheme: 'mat',
 
+  // The folder name where the server is stored
+  serverFolder: 'api',
+
+  // Will look into the root of the serverFolder for this file
+  ssrFile: 'vue-server-side-rendering.js',
+
+  // Build output folder name rooted in serverFolder for SSR
+  ssrBuildOutputFolder: 'ssr/',
+
+  // Should webpack compile the ssrFile
+  renderSSR: false,
+
   build: {
     env: require('./prod.env'),
     publicPath: '',

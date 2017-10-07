@@ -4,8 +4,13 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 function load (component) {
-  // '@' is aliased to src/components
-  return () => import(`@/${component}.vue`)
+  if (Vue.prototype.$isServer) {
+    return require(`src/components/${component}.vue`)
+  }
+  else {
+    // '@' is aliased to src/components
+    return () => import(`@/${component}.vue`)
+  }
 }
 
 export default new VueRouter({

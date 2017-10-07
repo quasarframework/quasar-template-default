@@ -25,11 +25,27 @@ import 'quasar-extras/material-icons'
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 
-Quasar.start(() => {
-  /* eslint-disable no-new */
-  new Vue({
+let app
+
+function initApp () {
+  app = new Vue({
     el: '#q-app',
     router,
     render: h => h(require('./App').default)
   })
-})
+}
+
+if (Vue.prototype.$isServer) {
+  initApp()
+}
+else {
+  Quasar.start(() => {
+    /* eslint-disable no-new */
+    initApp()
+  })
+}
+
+export default {
+  router,
+  app
+}
