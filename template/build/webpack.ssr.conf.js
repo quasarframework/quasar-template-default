@@ -29,7 +29,7 @@ module.exports = Object.assign({}, baseConfig, {
     path: path.resolve(
       __dirname, `../`, 
       serverFolder, 
-      config.buildOutputPath
+      config.ssrBuildOutputFolder
     ),
     filename: 'compiled-ssr.js',
   },
