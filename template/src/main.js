@@ -31,7 +31,7 @@ function initApp () {
   app = new Vue({
     el: '#q-app',
     router,
-    render: h => h(require('./App').default)
+    render: h => h(require('./App'))
   })
 }
 

@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 function load (component) {
   if (Vue.prototype.$isServer) {
-    return require(`src/components/${component}.vue`).default
+    return require(`src/components/${component}.vue`)
   }
   else {
     // '@' is aliased to src/components
