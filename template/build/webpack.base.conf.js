@@ -17,10 +17,10 @@ function resolve (dir) {
 
 function processEntry (entry) {
   if (!config.supportIE) {
-    return entry
+    return [ entry ]
   }
 
-  const iePolyfill = resolve(`node_modules/quasar-framework/dist/quasar.ie.js`)
+  const iePolyfill = resolve(`node_modules/quasar-framework/dist/quasar.ie.polyfills.js`)
   return Array.isArray(entry)
     ? [ iePolyfill ].concat(entry)
     : [ iePolyfill, entry ]
@@ -46,6 +46,7 @@ module.exports = {
       {
         quasar: resolve(`node_modules/quasar-framework/dist/quasar.${env.platform.theme}.esm.js`),
         'quasar-theme': resolve(`src/themes/app.${env.platform.theme}.styl`),
+        variables: resolve(__dirname, 'src/themes/quasar.variables.styl')
       },
       config.aliases
     )
