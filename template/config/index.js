@@ -3,7 +3,6 @@ var path = require('path')
 module.exports = {
   // Webpack aliases
   aliases: {
-    quasar: path.resolve(__dirname, '../node_modules/quasar-framework/'),
     src: path.resolve(__dirname, '../src'),
     assets: path.resolve(__dirname, '../src/assets'),
     '@': path.resolve(__dirname, '../src/components'),

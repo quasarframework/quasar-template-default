@@ -20,7 +20,7 @@ module.exports = {
     'cordova': true,
     'DEV': true,
     'PROD': true,
-    '__THEME': true
+    '__THEME__': true
   },
   // add your custom rules here
   'rules': {

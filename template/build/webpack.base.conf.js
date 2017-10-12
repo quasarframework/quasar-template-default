@@ -15,23 +15,40 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+function processEntry (entry) {
+  if (!config.supportIE) {
+    return entry
+  }
+
+  const iePolyfill = resolve(`node_modules/quasar-framework/dist/quasar.ie.js`)
+  return Array.isArray(entry)
+    ? [ iePolyfill ].concat(entry)
+    : [ iePolyfill, entry ]
+}
+
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: processEntry('./src/main.js')
   },
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: resolve('dist'),
     publicPath: config[env.prod ? 'build' : 'dev'].publicPath,
     filename: 'js/[name].js',
     chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: [`.${env.platform.theme}.js`, '.js', `.${env.platform.theme}.vue`, '.vue', '.json'],
     modules: [
       resolve('src'),
       resolve('node_modules')
     ],
-    alias: config.aliases
+    alias: merge(
+      {
+        quasar: resolve(`node_modules/quasar-framework/dist/quasar.${env.platform.theme}.esm.js`),
+        'quasar-theme': resolve(`src/themes/app.${env.platform.theme}.styl`),
+      },
+      config.aliases
+    )
   },
   module: {
     rules: [
@@ -89,12 +106,12 @@ module.exports = {
       'process.env': config[env.prod ? 'build' : 'dev'].env,
       'DEV': env.dev,
       'PROD': env.prod,
-      '__THEME': '"' + env.platform.theme + '"'
+      '__THEME__': '"' + env.platform.theme + '"'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: env.prod,
       options: {
-        context: path.resolve(__dirname, '../src'),
+        context: resolve('src'),
         postcss: cssUtils.postcss
       }
     }),
