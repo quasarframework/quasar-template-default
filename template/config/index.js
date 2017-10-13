@@ -2,6 +2,7 @@ const
   path = require('path'),
   chalk = require('chalk')
 
+// resolves path to root project folder
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -43,7 +44,7 @@ module.exports = {
 
     // Removes unused CSS (default is disabled).
     // May have side-effects in removing used CSS, so use it with care.
-    purifyCSS: true
+    purifyCSS: false
   },
   dev: {
     env: require('./dev.env'),

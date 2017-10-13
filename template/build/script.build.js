@@ -1,5 +1,5 @@
 require('./ensure-versions')()
-require('./script.clean.js')
+require('./script.clean')
 
 const config = require('../config')
 process.env.NODE_ENV = config.build.debug
@@ -20,7 +20,7 @@ console.log(chalk.bold(' WARNING!'))
 console.log(' Do NOT use VueRouter\'s "history" mode if')
 console.log(' building for Cordova or Electron.\n')
 
-console.log(chalk.bold(' Building Quasar App with "' + env.platform.theme + '" theme...\n'))
+console.log(chalk.bold(` Building Quasar App with "${env.platform.theme}" theme...\n`))
 
 function finalize () {
   const dest = path.relative(path.join(__dirname, '..'), config.build.dir)
