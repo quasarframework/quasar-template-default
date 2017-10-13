@@ -28,8 +28,14 @@ module.exports = {
     env: require('./prod.env'),
     publicPath: '',
 
+    // destination folder for distributables
     // leave "dist" if you are using wrappers (Cordova, Electron, ...)
     dir: resolve('dist'),
+
+    // Name of html file being generated
+    // Leave "index.html" if you are using wrappers (Cordova, Electron, ...)
+    // Change only if you know what you are doing.
+    htmlFilename: 'index.html',
 
     // Turn this on if you want to
     // debug a production version

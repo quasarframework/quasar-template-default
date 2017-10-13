@@ -36,7 +36,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: '[name].[contenthash].css'
     }),
     new HtmlWebpackPlugin({
-      filename: path.join(config.build.dir, 'index.html'),
+      filename: path.join(config.build.dir, config.build.htmlFilename),
       template: 'src/index.html',
       inject: true,
       minify: config.build.debug ? {} : {
