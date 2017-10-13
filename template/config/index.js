@@ -21,7 +21,10 @@ module.exports = {
   build: {
     env: require('./prod.env'),
     publicPath: '',
-    productionSourceMap: false,
+
+    // Turn this on if you want to
+    // debug a production version
+    debug: false,
 
     // Removes unused CSS (default is disabled).
     // May have side-effects in removing used CSS, so use it with care.

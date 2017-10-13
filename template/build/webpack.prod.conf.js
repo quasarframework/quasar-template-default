@@ -9,30 +9,16 @@ var
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-module.exports = merge(baseWebpackConfig, {
+var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: cssUtils.styleRules({
-      sourceMap: config.build.productionSourceMap,
+      sourceMap: config.build.debug,
       extract: true,
       postcss: true
     })
   },
-  devtool: config.build.productionSourceMap ? '#source-map' : false,
+  devtool: config.build.debug ? '#source-map' : false,
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: config.build.productionSourceMap,
-      minimize: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {
-        safe: true
-      }
-    }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css'
@@ -41,7 +27,7 @@ module.exports = merge(baseWebpackConfig, {
       filename: path.resolve(__dirname, '../dist/index.html'),
       template: 'src/index.html',
       inject: true,
-      minify: {
+      minify: config.build.debug ? {} : {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
@@ -76,3 +62,26 @@ module.exports = merge(baseWebpackConfig, {
     })
   ]
 })
+
+if (!config.build.debug) {
+  webpackConfig.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: config.build.debug,
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    })
+  )
+  webpackConfig.plugins.push(
+    // Compress extracted CSS. We are using this plugin so that possible
+    // duplicated CSS from different components can be deduped.
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        safe: true
+      }
+    })
+  )
+}
+
+module.exports = webpackConfig

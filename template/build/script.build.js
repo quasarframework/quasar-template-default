@@ -1,4 +1,8 @@
-process.env.NODE_ENV = 'production'
+var config = require('../config')
+
+process.env.NODE_ENV = config.build.debug
+  ? 'development'
+  : 'production'
 
 require('colors')
 
@@ -7,7 +11,6 @@ var
   path = require('path'),
   env = require('./env-utils'),
   css = require('./css-utils'),
-  config = require('../config'),
   webpack = require('webpack'),
   webpackConfig = require('./webpack.prod.conf'),
   targetPath = path.join(__dirname, '../dist')
@@ -29,6 +32,12 @@ function finalize () {
 
   console.log(' Built files are meant to be served over an HTTP server.'.bold)
   console.log(' Opening index.html over file:// won\'t work.'.bold)
+
+  if (config.build.debug) {
+    console.log((
+      '\n Built for ' + 'DEBUG'.bold +
+      '\n - Do NOT deploy this version to production.').cyan)
+  }
 }
 
 webpack(webpackConfig, function (err, stats) {
