@@ -1,16 +1,22 @@
-const path = require('path')
+const
+  path = require('path'),
+  chalk = require('chalk')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
   // Webpack aliases
   aliases: {
-    src: path.resolve(__dirname, '../src'),
-    assets: path.resolve(__dirname, '../src/assets'),
-    '@': path.resolve(__dirname, '../src/components')
+    src: resolve('src'),
+    assets: resolve('src/assets'),
+    '@': resolve('src/components')
   },
 
   // Progress Bar Webpack plugin format
   // https://github.com/clessg/progress-bar-webpack-plugin#options
-  progressFormat: ' [:bar] ' + ':percent'.bold + ' (:msg)',
+  progressFormat: ` [:bar] ${chalk.bold(':percent')} (:msg)`,
 
   // Default theme to build with ('ios' or 'mat')
   defaultTheme: 'mat',
@@ -22,20 +28,24 @@ module.exports = {
     env: require('./prod.env'),
     publicPath: '',
 
+    // leave "dist" if you are using wrappers (Cordova, Electron, ...)
+    dir: resolve('dist'),
+
     // Turn this on if you want to
     // debug a production version
     debug: false,
 
     // Removes unused CSS (default is disabled).
     // May have side-effects in removing used CSS, so use it with care.
-    purifyCSS: false
+    purifyCSS: true
   },
   dev: {
     env: require('./dev.env'),
     cssSourceMap: true,
+    publicPath: '/',
+
     // auto open browser or not
     openBrowser: true,
-    publicPath: '/',
     port: 8080,
 
     // If for example you are using Quasar Play

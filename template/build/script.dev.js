@@ -25,8 +25,8 @@ const
   // https://github.com/chimurai/http-proxy-middleware
   proxyTable = config.dev.proxyTable
 
-console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
-console.log(' Will listen at ' + uri.bold)
+console.log(` Starting dev server with "${chalk.bold(env.platform.theme)}" theme...`)
+console.log(` Will listen at ${chalk.bold(uri)}`)
 if (config.dev.openBrowser) {
   console.log(' Browser will open when build is ready.\n')
 }

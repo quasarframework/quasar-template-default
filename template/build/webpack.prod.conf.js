@@ -25,7 +25,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   output: {
-    path: resolve('dist'),
+    path: config.build.dir,
     publicPath: config.build.publicPath,
     filename: 'js/[name].js',
     chunkFilename: 'js/[id].[chunkhash].js'
@@ -36,7 +36,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: '[name].[contenthash].css'
     }),
     new HtmlWebpackPlugin({
-      filename: resolve('dist/index.html'),
+      filename: path.join(config.build.dir, 'index.html'),
       template: 'src/index.html',
       inject: true,
       minify: config.build.debug ? {} : {
@@ -78,7 +78,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: resolve('src/statics'),
-        to: resolve('dist/statics')
+        to: path.join(config.build.dir, 'statics')
       }
     ])
   ]

@@ -1,4 +1,5 @@
 const
+  chalk = require('chalk'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   purify = require('purify-css'),
   glob = require('glob'),
@@ -68,20 +69,25 @@ module.exports.styleLoaders = function (options) {
   return output
 }
 
-module.exports.purify = function () {
-  var css = glob.sync(path.join(__dirname, '../dist/**/*.css'))
-  var js = glob.sync(path.join(__dirname, '../dist/**/*.js'))
+function getSize (size) {
+  return (size / 1024).toFixed(2) + 'kb'
+}
 
+module.exports.purify = function (dir) {
+  var css = glob.sync(path.join(dir, '**/*.css'))
+  var js = glob.sync(path.join(dir, '**/*.js'))
+
+  console.log(chalk.cyan('\n\n If you experience CSS anomalies, disable PurifyCSS from config file.'))
   return Promise.all(css.map(file => {
     return new Promise((resolve, reject) => {
-      console.log('\n Purifying ' + path.relative(path.join(__dirname, '../dist'), file).bold + '...')
+      console.log(`\n Purifying ${chalk.bold(path.relative(dir, file))} ...`)
       purify(js, [file], {minify: true}, purified => {
-        var oldSize = fs.statSync(file).size
+        const oldSize = fs.statSync(file).size
         fs.writeFileSync(file, purified)
-        var newSize = fs.statSync(file).size
+        const newSize = fs.statSync(file).size
 
         console.log(
-          ' * Reduced size by ' + ((1 - newSize / oldSize) * 100).toFixed(2) + '%, = require(' +
+          ' * Reduced size by ' + ((1 - newSize / oldSize) * 100).toFixed(2) + '%, from ' +
           getSize(oldSize) + ' to ' + getSize(newSize) + '.'
         )
         resolve()
