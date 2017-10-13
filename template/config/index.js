@@ -23,9 +23,9 @@ module.exports = {
     publicPath: '',
     productionSourceMap: false,
 
-    // Remove unused CSS
-    // Disable it if it has side-effects for your specific app
-    purifyCSS: true
+    // Removes unused CSS (default is disabled).
+    // May have side-effects in removing used CSS, so use it with care.
+    purifyCSS: false
   },
   dev: {
     env: require('./dev.env'),

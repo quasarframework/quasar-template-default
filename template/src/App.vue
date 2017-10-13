@@ -14,7 +14,6 @@ export default {}
 
 <style lang="stylus" src="quasar-theme"></style>
 
-<style lang="stylus">
 /*
  Your own "global" CSS here. Make sure it is after
  including Quasar theme
@@ -25,4 +24,4 @@ export default {}
  Refer to vue-loader documentation for more reading:
  https://vue-loader.vuejs.org/en/configurations/pre-processors.html
  */
-</style>
+<style lang="stylus"></style>

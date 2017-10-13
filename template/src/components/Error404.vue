@@ -1,10 +1,10 @@
 <template>
-  <div class="error-page window-height window-width bg-light column items-center no-wrap">
+  <div class="error-page window-height window-width bg-grey-3 column items-center no-wrap">
     <div class="error-code bg-primary flex items-center justify-center">
       404
     </div>
     <div>
-      <div class="error-card shadow-4 bg-white column items-center justify-center no-wrap">
+      <div class="error-card shadow-4 bg-white column items-center content-center justify-center no-wrap">
         <q-icon name="error_outline" color="grey-5" />
         <p class="caption text-center">Oops. Nothing here...</p>
         <p class="text-center group">
@@ -58,7 +58,12 @@ export default {
     height 50vh
     width 100%
     padding-top 15vh
-    font-size 30vmax
+    @media (orientation: landscape) {
+      font-size 30vw
+    }
+    @media (orientation: portrait) {
+      font-size 30vh
+    }
     color rgba(255, 255, 255, .2)
     overflow hidden
   .error-card
