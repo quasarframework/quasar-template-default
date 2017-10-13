@@ -29,7 +29,7 @@ function finalize () {
   ))
 
   console.log(chalk.bold(' Built files are meant to be served over an HTTP server.'))
-  console.log(chalk.bold(' Opening index.html over file:// won\'t work.'))
+  console.log(chalk.bold(` Opening ${config.build.htmlFilename} over file:// won\'t work.`))
 
   if (config.build.debug) {
     console.log(chalk.cyan(
