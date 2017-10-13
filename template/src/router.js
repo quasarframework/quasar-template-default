@@ -8,7 +8,7 @@ function load (component) {
   return () => import(`@/${component}.vue`)
 }
 
-export default new VueRouter({
+const router = new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
    * it is only to be used only for websites.
@@ -21,6 +21,8 @@ export default new VueRouter({
    * build publicPath back to '' so Cordova builds work again.
    */
 
+  mode: 'hash',
+  scrollBehavior: () => ({ y: 0 }),
   routes: [
     { path: '/', component: load('Hello') },
 
@@ -28,3 +30,14 @@ export default new VueRouter({
     { path: '*', component: load('Error404') } // Not found
   ]
 })
+
+// Inform Google Analytics
+router.beforeEach((to, from, next) => {
+  if (typeof ga !== 'undefined') {
+    ga('set', 'page', to.path)
+    ga('send', 'pageview')
+  }
+  next()
+})
+
+export default router

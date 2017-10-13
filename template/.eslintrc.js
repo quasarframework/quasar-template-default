@@ -24,6 +24,7 @@ module.exports = {
     }
   },
   globals: {
+    'ga': true, // Google Analytics
     'cordova': true,
     'DEV': true,
     'PROD': true,
