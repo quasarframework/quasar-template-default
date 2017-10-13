@@ -1,15 +1,15 @@
-var
+const
   path = require('path'),
   webpack = require('webpack'),
-  config = require('../config'),
-  cssUtils = require('./css-utils'),
-  env = require('./env-utils'),
   merge = require('webpack-merge'),
-  projectRoot = path.resolve(__dirname, '../'),
-  ProgressBarPlugin = require('progress-bar-webpack-plugin'),
-  useCssSourceMap =
-    (env.dev && config.dev.cssSourceMap) ||
-    (env.prod && config.build.productionSourceMap)
+  ProgressBarPlugin = require('progress-bar-webpack-plugin')
+
+const
+  config = require('../config'),
+  env = require('./env-utils'),
+  vueLoaderConfig = require('./vue-loader.conf')
+
+const projectRoot = path.resolve(__dirname, '../')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -29,12 +29,6 @@ function processEntry (entry) {
 module.exports = {
   entry: {
     app: processEntry('./src/main.js')
-  },
-  output: {
-    path: resolve('dist'),
-    publicPath: config[env.prod ? 'build' : 'dev'].publicPath,
-    filename: 'js/[name].js',
-    chunkFilename: 'js/[id].[chunkhash].js'
   },
   resolve: {
     extensions: [`.${env.platform.theme}.js`, '.js', `.${env.platform.theme}.vue`, '.vue', '.json'],
@@ -64,21 +58,14 @@ module.exports = {
         }
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: projectRoot,
-        exclude: /node_modules/
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: {
-          postcss: cssUtils.postcss,
-          loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
-            sourceMap: useCssSourceMap,
-            extract: env.prod
-          }))
-        }
+        options: vueLoaderConfig
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: resolve('src')
       },
       {
         test: /\.json$/,
@@ -99,6 +86,14 @@ module.exports = {
           limit: 10000,
           name: 'fonts/[name].[hash:7].[ext]'
         }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'media/[name].[hash:7].[ext]'
+        }
       }
     ]
   },
@@ -108,13 +103,6 @@ module.exports = {
       'DEV': env.dev,
       'PROD': env.prod,
       '__THEME__': '"' + env.platform.theme + '"'
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: env.prod,
-      options: {
-        context: resolve('src'),
-        postcss: cssUtils.postcss
-      }
     }),
     new ProgressBarPlugin({
       format: config.progressFormat

@@ -1,33 +1,30 @@
-var
-  config = require('../config'),
+const
   webpack = require('webpack'),
   merge = require('webpack-merge'),
-  cssUtils = require('./css-utils'),
-  baseWebpackConfig = require('./webpack.base.conf'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
+const
+  config = require('../config'),
+  cssUtils = require('./css-utils'),
+  baseWebpackConfig = require('./webpack.base.conf')
+
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
-  baseWebpackConfig.entry[name] = ['./build/hot-reload.js'].concat(baseWebpackConfig.entry[name])
+  baseWebpackConfig.entry[name] = ['./build/dev-client.js'].concat(baseWebpackConfig.entry[name])
 })
 
 module.exports = merge(baseWebpackConfig, {
-  // eval-source-map is faster for development
+  // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true
-  },
   module: {
-    rules: cssUtils.styleRules({
-      sourceMap: config.dev.cssSourceMap,
-      postcss: true
-    })
+    rules: cssUtils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
   plugins: [
+    // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    // https://github.com/ampedandwired/html-webpack-plugin,
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html',
@@ -36,8 +33,5 @@ module.exports = merge(baseWebpackConfig, {
     new FriendlyErrorsPlugin({
       clearConsole: config.dev.clearConsoleOnRebuild
     })
-  ],
-  performance: {
-    hints: false
-  }
+  ]
 })

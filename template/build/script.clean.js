@@ -1,4 +1,4 @@
-var
+const
   shell = require('shelljs'),
   path = require('path')
 

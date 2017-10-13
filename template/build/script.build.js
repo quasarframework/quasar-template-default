@@ -1,46 +1,43 @@
-var config = require('../config')
+require('./ensure-versions')()
+require('./script.clean.js')
 
+const config = require('../config')
 process.env.NODE_ENV = config.build.debug
   ? 'development'
   : 'production'
 
-require('colors')
-
-var
-  shell = require('shelljs'),
+const
   path = require('path'),
   env = require('./env-utils'),
-  css = require('./css-utils'),
-  webpack = require('webpack'),
-  webpackConfig = require('./webpack.prod.conf'),
-  targetPath = path.join(__dirname, '../dist')
+  chalk = require('chalk'),
+  webpack = require('webpack')
+
+const
+  webpackConfig = require('./webpack.prod.conf')
 
 console.log(' WARNING!'.bold)
 console.log(' Do NOT use VueRouter\'s "history" mode if')
 console.log(' building for Cordova or Electron.\n')
 
-require('./script.clean.js')
 console.log((' Building Quasar App with "' + env.platform.theme + '" theme...\n').bold)
 
-shell.mkdir('-p', targetPath)
-shell.cp('-R', 'src/statics', targetPath)
-
 function finalize () {
-  console.log((
-    '\n Build complete with "' + env.platform.theme.bold + '" theme in ' +
-    '"/dist"'.bold + ' folder.\n').cyan)
+  console.log(chalk.cyan(
+    `\n Build complete with "${chalk.bold(env.platform.theme)}" theme in "${chalk.bold('/dist')}" folder.\n`
+  ))
 
-  console.log(' Built files are meant to be served over an HTTP server.'.bold)
-  console.log(' Opening index.html over file:// won\'t work.'.bold)
+  console.log(chalk.bold(' Built files are meant to be served over an HTTP server.'))
+  console.log(chalk.bold(' Opening index.html over file:// won\'t work.'))
 
   if (config.build.debug) {
-    console.log((
-      '\n Built for ' + 'DEBUG'.bold +
-      '\n - Do NOT deploy this version to production.').cyan)
+    console.log(chalk.cyan(
+      '\n Built for ' + chalk.bold('DEBUG') +
+      '\n - Do NOT deploy this version to production.'
+    ))
   }
 }
 
-webpack(webpackConfig, function (err, stats) {
+webpack(webpackConfig, (err, stats) => {
   if (err) throw err
 
   process.stdout.write(stats.toString({
@@ -52,11 +49,12 @@ webpack(webpackConfig, function (err, stats) {
   }) + '\n')
 
   if (stats.hasErrors()) {
+    console.log(chalk.red(' Build failed with errors.\n'))
     process.exit(1)
   }
 
   if (config.build.purifyCSS) {
-    css.purify(finalize)
+    css.purify().then(finalize)
   }
   else {
     finalize()

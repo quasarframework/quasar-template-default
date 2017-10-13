@@ -1,30 +1,42 @@
-var
+const
   path = require('path'),
-  config = require('../config'),
-  cssUtils = require('./css-utils'),
   webpack = require('webpack'),
   merge = require('webpack-merge'),
-  baseWebpackConfig = require('./webpack.base.conf'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+  OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'),
+  CopyWebpackPlugin = require('copy-webpack-plugin')
 
-var webpackConfig = merge(baseWebpackConfig, {
+const
+  config = require('../config'),
+  cssUtils = require('./css-utils'),
+  baseWebpackConfig = require('./webpack.base.conf')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+const webpackConfig = merge(baseWebpackConfig, {
+  devtool: config.build.debug ? '#source-map' : false,
   module: {
-    rules: cssUtils.styleRules({
+    rules: cssUtils.styleLoaders({
       sourceMap: config.build.debug,
-      extract: true,
-      postcss: true
+      extract: true
     })
   },
-  devtool: config.build.debug ? '#source-map' : false,
+  output: {
+    path: resolve('dist'),
+    publicPath: config.build.publicPath,
+    filename: 'js/[name].js',
+    chunkFilename: 'js/[id].[chunkhash].js'
+  },
   plugins: [
     // extract css into its own file
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css'
     }),
     new HtmlWebpackPlugin({
-      filename: path.resolve(__dirname, '../dist/index.html'),
+      filename: resolve('dist/index.html'),
       template: 'src/index.html',
       inject: true,
       minify: config.build.debug ? {} : {
@@ -37,6 +49,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    // keep module.id stable when vender modules does not change
+    new webpack.HashedModuleIdsPlugin(),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -55,27 +69,33 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     }),
     // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
+    // prevent vendor hash = require(being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    })
+    }),
+    // copy custom static assets
+    new CopyWebpackPlugin([
+      {
+        from: resolve('src/statics'),
+        to: resolve('dist/statics')
+      }
+    ])
   ]
 })
 
 if (!config.build.debug) {
   webpackConfig.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: config.build.debug,
-      minimize: true,
       compress: {
         warnings: false
-      }
+      },
+      sourceMap: config.build.debug
     })
   )
   webpackConfig.plugins.push(
     // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
+    // duplicated CSS = require(different components can be deduped.
     new OptimizeCSSPlugin({
       cssProcessorOptions: {
         safe: true
