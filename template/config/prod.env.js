@@ -1,7 +1,3 @@
-const
-  merge = require('webpack-merge'),
-  env = require('./prod.env')
-
-module.exports = merge(env, {
+module.exports = {
   NODE_ENV: '"production"'
-})
+}
