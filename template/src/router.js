@@ -21,6 +21,9 @@ export default new VueRouter({
    * build publicPath back to '' so Cordova builds work again.
    */
 
+  mode: 'hash',
+  scrollBehavior: () => ({ y: 0 }),
+
   routes: [
     { path: '/', component: load('Hello') },
 
