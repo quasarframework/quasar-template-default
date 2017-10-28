@@ -40,7 +40,7 @@ module.exports = {
       {
         quasar: resolve(`node_modules/quasar-framework/dist/quasar.${env.platform.theme}.esm.js`),
         'quasar-theme': resolve(`src/themes/app.${env.platform.theme}.styl`),
-        variables: resolve(__dirname, 'src/themes/quasar.variables.styl')
+        variables: resolve('src/themes/quasar.variables.styl')
       },
       config.aliases
     )

@@ -23,7 +23,7 @@ module.exports = {
   defaultTheme: 'mat',
 
   // Add support for IE browser
-  supportIE: true,
+  supportIE: false,
 
   build: {
     env: require('./prod.env'),

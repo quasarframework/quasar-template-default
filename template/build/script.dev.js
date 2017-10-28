@@ -90,6 +90,8 @@ const setupPromise = new Promise((resolve, reject) => {
       if (config.dev.openBrowser) {
         opn(uri)
       }
+
+      resolve()
     })
   })
 })
