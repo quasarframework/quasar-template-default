@@ -5,7 +5,8 @@ const
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'),
-  CopyWebpackPlugin = require('copy-webpack-plugin')
+  CopyWebpackPlugin = require('copy-webpack-plugin'),
+  UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const
   config = require('../config'),
@@ -86,12 +87,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 
 if (!config.build.debug) {
   webpackConfig.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: config.build.debug
-    })
+    new UglifyJSPlugin()
   )
   webpackConfig.plugins.push(
     // Compress extracted CSS. We are using this plugin so that possible
