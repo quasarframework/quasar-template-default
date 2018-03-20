@@ -9,6 +9,7 @@
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
+    "bash": "docker exec -it quasar-dev bash",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
