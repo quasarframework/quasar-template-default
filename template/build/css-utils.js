@@ -73,8 +73,9 @@ module.exports.purify = function(cb) {
 
   Promise.all(css.map(function (file) {
     return new Promise(function (resolve) {
-      console.log('\n Purifying ' + path.relative(path.join(__dirname, '../dist'), file).bold + '...')
-      purify(js, [file], {minify: true}, function (purified) {
+      var notPurifiedClass = ['*bg-*', '*text-*']
+      console.log('\n Purifying ' + path.relative(path.join(__dirname, '../dist'), file, ' but not classes ', notPurifiedClass).bold + '...')
+      purify(js, [file], {minify: true,  whitelist: notPurifiedClass}, function (purified) {
         var oldSize = fs.statSync(file).size
         fs.writeFileSync(file, purified)
         var newSize = fs.statSync(file).size
